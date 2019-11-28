@@ -7,6 +7,8 @@ import static com.beagle.java.projects.starfucks.utils.Utils.removeNullValue;
 
 /**
  * Class consisting of methods that CRUD data in baristaRepository.txt based on data from Barista Service
+ * @see com.beagle.java.projects.starfucks.repository.database
+ * @author Beagle
  */
 public class BaristaRepository {
 
@@ -14,7 +16,7 @@ public class BaristaRepository {
 
     /**
      * Method to store input data in BaristaRepository
-     * @param inputStr
+     * @param inputStr add the string data in the form of "baristaIndex/orderCount;"
      * @return (boolean) success
      */
     public boolean saveToBaristaRepository(String inputStr) {
@@ -46,7 +48,7 @@ public class BaristaRepository {
 
     /**
      * Method that retrieves data stored in text file and returns as String
-     * @return (String) a String of the content stored in the text file.
+     * @return (String[]) string array in the form of {barista index, order count}
      */
     public String[] readAllBaristaData() {
         File file = new File(filePath);
@@ -77,9 +79,10 @@ public class BaristaRepository {
 
 
     /**
-     * Method to modify file data corresponding to file path
-     * @param oldData
-     * @param newData
+     * retrieves old data from UserRepository and replaces it with new data and creates the same text file with other data, deletes the existing text file
+     * renames the new text file with the existing text file name.
+     * @param oldData add the string data in the form of "baristaIndex/orderCount;"
+     * @param newData add the string data in the form of "baristaIndex/orderCount;"
      * @return (boolean) success
      */
     public boolean updateBaristaRepository(String oldData, String newData) {

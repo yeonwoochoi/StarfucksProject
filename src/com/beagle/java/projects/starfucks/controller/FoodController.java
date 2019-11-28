@@ -13,6 +13,14 @@ public class FoodController {
     FoodRepository foodRepository = new FoodRepository();
     FoodService foodService = new FoodService();
 
+
+    private static FoodController foodController = new FoodController();
+    private FoodController() {}
+    public static FoodController getInstance() {
+        return foodController;
+    }
+
+
     /**
      * Method that returns all data in FoodRepository.txt as string
      * @return String menu

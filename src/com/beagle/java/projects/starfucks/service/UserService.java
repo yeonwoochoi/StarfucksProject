@@ -4,6 +4,13 @@ package com.beagle.java.projects.starfucks.service;
 import com.beagle.java.projects.starfucks.repository.OrderNumberRepository;
 import com.beagle.java.projects.starfucks.repository.UserRepository;
 
+
+/**
+ * CRUD user data stored in UserRepository.txt
+ * @see com.beagle.java.projects.starfucks.repository.UserRepository
+ * @see com.beagle.java.projects.starfucks.repository.OrderNumberRepository
+ * @author Beagle
+ */
 public class UserService {
 
     OrderNumberRepository orderNumberRepository = new OrderNumberRepository();

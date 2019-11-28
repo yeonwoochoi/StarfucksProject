@@ -7,17 +7,21 @@ import static com.beagle.java.projects.starfucks.utils.Utils.*;
 
 
 /**
- * update BaristaRepository.txt when order is accepted or is finished
+ * When an order comes in, if the existing working barista has more than 10 jobs, call the new barista or assign work to the existing barista.
+ * When an order is processed, if the working barista is doing more than one job, the number of orders being processed is subtracted, and if the processed order was the only thing that was done, delete barista from BaristaRepository.txt
+ * @see com.beagle.java.projects.starfucks.repository.BaristaRepository
+ * @see BaristaRepository#readAllBaristaData()
+ * @author Beagle
  */
-
 public class BaristaService {
     BaristaRepository baristaRepository = new BaristaRepository();
     String[] baristaDataArr = baristaRepository.readAllBaristaData();
 
 
+
     /**
-     * A method that calls a new barista when all baristas are performing 10 orders.
-     * @return (String) Barista index assigned new order
+     * calls a new barista when all baristas are performing 10 orders.
+     * @return (String) Barista index assigned new order.
      */
     public String createNewBarista() {
 
@@ -106,7 +110,7 @@ public class BaristaService {
 
     /**
      * substrate order count of barista in BaristaRepository.txt
-     * @param baristaIndexStr
+     * @param baristaIndexStr Index of barista that was processing the corresponding order
      * @return (boolean) success
      */
     public boolean reduceOrderCount(String baristaIndexStr) {
@@ -160,6 +164,11 @@ public class BaristaService {
         return success;
     }
 
+    /**
+     * deletes barista from BaristaRepository.txt if the order processed by barista is the only remaining order
+     * @param baristaIndexStr Index of barista that was processing the corresponding order
+     * @return (boolean) success
+     */
     public boolean deleteBarista (String baristaIndexStr) {
 
         String[] eachArr;

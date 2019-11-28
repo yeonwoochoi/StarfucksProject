@@ -1,5 +1,11 @@
 package com.beagle.java.projects.starfucks.domain;
 
+
+/**
+ * a frame of information about user data
+ * User data is stored in a text file in the form of a string returned by the toString method.
+ * @author Beagle
+ */
 public class User {
 
     private int orderNumber;
@@ -43,5 +49,14 @@ public class User {
 
     public void setHoldingBell(boolean holdingBell) {
         this.holdingBell = holdingBell;
+    }
+
+    /**
+     * Data type to be stored in UserRepository.txt
+     * @return (String) user data in form of "order number + "/" + barista index() + "/" + waiting time + "/" + is holding bell + ";""
+     */
+    @Override
+    public String toString() {
+        return getOrderNumber() + "/" + getBaristaIndex() + "/" + getWaitingTime() + "/" + isHoldingBell() + ";";
     }
 }

@@ -3,13 +3,20 @@ package com.beagle.java.projects.starfucks.repository;
 
 import java.io.*;
 
+
+/**
+ * read food data stored in FoodRepository.txt
+ * There is no add, modify, delete method
+ * @see com.beagle.java.projects.starfucks.repository.database
+ * @author Beagle
+ */
 public class FoodRepository {
 
     String filePath = "C:\\Users\\최연우\\IdeaProjects\\StarfucksProject\\src\\com\\beagle\\java\\projects\\starfucks\\repository\\database\\FoodRepository.txt";
 
 
     /**
-     * Method that retrieves all food data stored in text file and returns as String
+     * get all food data stored in text file and returns as String
      * @return (String) a String of the content stored in the text file.
      */
     public String readAllFoodData() {
@@ -38,7 +45,7 @@ public class FoodRepository {
 
     /**
      * Method to read data corresponding to input data through file path
-     * @param content
+     * @param content one of the index, name, price, time of food
      * @return (String[]) {food number, food name, food price, consumed time}
      */
     public String[] readFoodColumn(String content) {

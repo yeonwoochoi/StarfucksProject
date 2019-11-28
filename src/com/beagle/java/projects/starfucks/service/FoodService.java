@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import static com.beagle.java.projects.starfucks.utils.Utils.*;
 
 /**
- * class with method to read food data in foodRepository.txt
+ * read food data in foodRepository.txt
+ * @see com.beagle.java.projects.starfucks.repository.FoodRepository
+ * @author Beagle
  */
 public class FoodService {
     FoodRepository foodRepository = new FoodRepository();

@@ -5,12 +5,15 @@ import java.util.List;
 
 /**
  * class with methods used throughout the project
+ * class with method to convert type or remove null value of array
+ * @author Beagle
  */
 public class Utils {
 
+
     /**
      * Method to remove null value among data in input string array
-     * @param inputArr
+     * @param inputArr String array
      * @return string array with null values ​​removed
      */
     public static String[] removeNullValue(String[] inputArr) {
@@ -30,7 +33,7 @@ public class Utils {
 
     /**
      * Convert a String type variable to an int type
-     * @param input
+     * @param input int type
      * @return Value converted to String type
      */
     public static String intToString(int input)  {
@@ -42,7 +45,7 @@ public class Utils {
 
     /**
      * Convert variable of int type to String type
-     * @param input
+     * @param input String type
      * @return Value converted to int type
      */
     public static int stringToInt(String input) {
@@ -53,7 +56,7 @@ public class Utils {
 
     /**
      * Method to convert String array to int array
-     * @param input
+     * @param input String array
      * @return (int) array
      */
     public static int[] stringArrayToIntArray(String[] input) {
@@ -63,20 +66,5 @@ public class Utils {
         }
         return newObjects;
     }
-
-
-    /**
-     * Method to convert int array to string array
-     * @param input
-     * @return (String) array
-     */
-    public static String[] intArrayToStringArray(int[] input) {
-        String[] newObjects = new String[input.length];
-        for (int i = 0; i < input.length; i++) {
-            newObjects[i] = intToString(i);
-        }
-        return newObjects;
-    }
-
 
 }

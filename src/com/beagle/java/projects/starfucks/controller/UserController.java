@@ -7,6 +7,13 @@ public class UserController {
 
     UserService userService = new UserService();
 
+
+    private static UserController userController = new UserController();
+    private UserController() {}
+    public static UserController getInstance() {
+        return userController;
+    }
+
     public String getOrders(String baristaIndex, String waitingTime) {
         String orderIndex = userService.createUser(baristaIndex,waitingTime);
         return orderIndex;

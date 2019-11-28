@@ -6,11 +6,19 @@ import java.io.*;
 import static com.beagle.java.projects.starfucks.utils.Utils.stringToInt;
 import static com.beagle.java.projects.starfucks.utils.Utils.intToString;
 
+
+/**
+ * The class that loads the order number from OrderNumberRepository.txt which stores only the order number
+ * updates it by adding 1 whenever the order number is assigned so that the order numbers do not overlap.
+ * @see com.beagle.java.projects.starfucks.repository.database
+ * @author Beagle
+ */
 public class OrderNumberRepository {
 
     String filePath = "C:\\Users\\최연우\\IdeaProjects\\StarfucksProject\\src\\com\\beagle\\java\\projects\\starfucks\\repository\\database\\OrderIndexRepository.txt";
+
     /**
-     * Method to get order number from OrderNumberRepository.txt and return
+     * get order number from OrderNumberRepository.txt and return
      * @return (String) order number.
      */
     public String readOrderNumber() {
@@ -38,7 +46,7 @@ public class OrderNumberRepository {
 
 
     /**
-     * Method to update order number from OrderNumberRepository.txt and return success
+     * update order number from OrderNumberRepository.txt and return success
      * @return (boolean) success
      */
     public boolean updateOrderNumber() {

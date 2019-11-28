@@ -18,18 +18,16 @@ public class Manager {
     UserController userController = new UserController();
 
 
-
-
-    public void getOrders(String[] foodIndex, String[] foodCount) {
+    public void getOrders(String[] foodIndexes, String[] foodCounts) {
 
 
         // check input data adequacy
-        if (checkInputArray(foodIndex) && checkInputArray(foodCount)) {
-            String receipt = foodController.makeReceipt(foodIndex, foodCount);
+        if (checkInputArray(foodIndexes) && checkInputArray(foodCounts)) {
+            String receipt = foodController.makeReceipt(foodIndexes, foodCounts);
             System.out.println("-- receipt --\n" + receipt);
 
             // get total waiting time and total price
-            String[] foodDataArr = foodController.calculateFoodData(foodIndex, foodCount);
+            String[] foodDataArr = foodController.calculateFoodData(foodIndexes, foodCounts);
             String totalWaitingTimeStr = foodDataArr[0];
             int totalWaitingTime = stringToInt(totalWaitingTimeStr);
             String totalPriceStr = foodDataArr[1];

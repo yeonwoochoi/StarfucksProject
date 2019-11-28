@@ -3,13 +3,19 @@ package com.beagle.java.projects.starfucks.repository;
 
 import java.io.*;
 
+
+/**
+ * Index of barista that was processing the corresponding order
+ * @see com.beagle.java.projects.starfucks.repository.database
+ * @author Beagle
+ */
 public class UserRepository {
 
     String filePath = "C:\\Users\\최연우\\IdeaProjects\\StarfucksProject\\src\\com\\beagle\\java\\projects\\starfucks\\repository\\database\\UserRepository.txt";
 
     /**
      * Method to store input data in UserRepository
-     * @param inputStr
+     * @param inputStr add the string data in the form of "orderIndex/baristaIndex/waitingTime/isHoldingBell;"
      * @return (boolean) success
      */
     public boolean saveToUserRegistory(String inputStr) {
@@ -39,8 +45,8 @@ public class UserRepository {
 
 
     /**
-     * Method that retrieves data stored in text file and returns as String
-     * @return (String[]) {order number, barista index, waiting time, holding bell}
+     * Parsing the data stored in UserRepository.txt as a unit and returning it as a string array
+     * @return (String[]) string array in the form of {order number, barista index, waiting time, holding bell}
      */
     public String[] readAllUserData() {
         File file = new File(filePath);
@@ -72,8 +78,10 @@ public class UserRepository {
 
 
     /**
-     * update User Data in UserRepository.txt when user received food.
+     * retrieves old data from UserRepository and replaces it with new data and creates the same text file with other data, deletes the existing text file
+     * renames the new text file with the existing text file name.
      * @param oldData
+     * @param newData
      * @return (boolean) success
      */
     public boolean updateUserRepository(String oldData, String newData) {
@@ -139,6 +147,8 @@ public class UserRepository {
 
     /**
      * Method that delete data which contains inputStr
+     * @param inputStr
+     * @return (boolean) success
      */
     public boolean deleteUserData(String inputStr) {
         String[] userArr = readAllUserData();

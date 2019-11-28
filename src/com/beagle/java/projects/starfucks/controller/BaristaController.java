@@ -13,6 +13,13 @@ public class BaristaController {
     String[] baristaDataArr = baristaRepository.readAllBaristaData();
 
 
+    private static BaristaController baristaController = new BaristaController();
+    private BaristaController() {}
+    public static BaristaController getInstance() {
+        return baristaController;
+    }
+
+
     public String getOrderToBarista() {
         int i = 0;
         boolean run = true;
