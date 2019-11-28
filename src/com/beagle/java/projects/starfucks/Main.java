@@ -1,6 +1,5 @@
 package com.beagle.java.projects.starfucks;
 
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
