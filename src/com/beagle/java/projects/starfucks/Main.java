@@ -20,6 +20,10 @@ public class Main {
 
     }
 
+    /**
+     * input data by using Scanner
+     * @param value input data of int type
+     */
     private static void doProcess(int value) {
         int input = 0;
         switch (value) {
@@ -69,7 +73,10 @@ public class Main {
     }
 
 
-
+    /**
+     * Method used to input data directly by using scanner
+     * @return (int) input data
+     */
     private static int getInput() {
         Scanner scanner = new Scanner(System.in);
         try {
@@ -80,6 +87,10 @@ public class Main {
         }
     }
 
+    /**
+     * Method that shows what the int type data received mean
+     * @return (String) menu
+     */
     public static String printMenu() {
         String str;
         str = "== Welcome to StarFucks ==\n" +

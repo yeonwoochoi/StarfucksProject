@@ -6,11 +6,18 @@ import com.beagle.java.projects.starfucks.service.BaristaService;
 import static com.beagle.java.projects.starfucks.utils.Utils.stringArrayToIntArray;
 import static com.beagle.java.projects.starfucks.utils.Utils.stringToInt;
 
+
+/**
+ * Call the appropriate BaristaService's method according to the input order data
+ * Implemented in singleton pattern and will call in Manager class
+ * @see com.beagle.java.projects.starfucks.service.BaristaService
+ * @see com.beagle.java.projects.starfucks.repository.BaristaRepository
+ * @author Beagle
+ */
 public class BaristaController {
 
     BaristaRepository baristaRepository = new BaristaRepository();
     BaristaService baristaService = new BaristaService();
-    String[] baristaDataArr = baristaRepository.readAllBaristaData();
 
 
     private static BaristaController baristaController = new BaristaController();
@@ -21,6 +28,8 @@ public class BaristaController {
 
 
     public String getOrderToBarista() {
+        String[] baristaDataArr = baristaRepository.readAllBaristaData();
+
         int i = 0;
         boolean run = true;
         String baristaIndex = "100000000000";
@@ -34,7 +43,7 @@ public class BaristaController {
                 check += 1;
             }
 
-            if ((i == baristaDataArr.length - 1) && (check == baristaDataArr.length)) {
+            if ((i == baristaDataArr.length - 1) && (check == baristaDataArr.length) && (run)) {
                 baristaIndex = baristaService.createNewBarista();
                 run = false;
             }
@@ -47,6 +56,7 @@ public class BaristaController {
     }
 
     public boolean finishOrderFromBarista(String baristaIndexStr) {
+        String[] baristaDataArr = baristaRepository.readAllBaristaData();
         int i = 0;
         boolean run = true;
         boolean success = false;
@@ -55,10 +65,10 @@ public class BaristaController {
             int[] eachArr = stringArrayToIntArray(baristaDataArr[i].split("/"));
             if (eachArr[0] == stringToInt(baristaIndexStr)) {
                 eachOrderCount = eachArr[1];
-                if (eachOrderCount >= 1 && eachOrderCount <= 10) {
+                if (eachOrderCount >= 2 && eachOrderCount <= 10) {
                     success = baristaService.reduceOrderCount(baristaIndexStr);
                     run = false;
-                } else if (eachOrderCount == 0) {
+                } else if (eachOrderCount == 1) {
                     success = baristaService.deleteBarista(baristaIndexStr);
                     run = false;
                 }

@@ -10,7 +10,13 @@ import java.util.TimerTask;
 import static com.beagle.java.projects.starfucks.utils.Utils.stringToInt;
 
 
-
+/**
+ * combines all the classes in the controller package and the methods in it and handles the input data from the Main class accordingly.
+ * @see com.beagle.java.projects.starfucks.controller.BaristaController
+ * @see com.beagle.java.projects.starfucks.controller.FoodController
+ * @see com.beagle.java.projects.starfucks.controller.UserController
+ * @author Beagle
+ */
 public class Manager {
 
     BaristaController baristaController = BaristaController.getInstance();
@@ -18,6 +24,11 @@ public class Manager {
     UserController userController = UserController.getInstance();
 
 
+    /**
+     * process order information when order is placed
+     * @param foodIndexes Array of indexes of food ordered by a guest
+     * @param foodCounts Array of counts of food ordered by a guest
+     */
     public void getOrders(String[] foodIndexes, String[] foodCounts) {
 
 
@@ -42,8 +53,7 @@ public class Manager {
             String orderIndex = userController.getOrders(baristaIndex, totalWaitingTimeStr);
 
 
-
-
+            // recover vibration bell and recover order from barista when waiting time is reached
             Timer timer = new Timer();
             TimerTask timerTask = new TimerTask() {
                 @Override
@@ -61,15 +71,28 @@ public class Manager {
     }
 
 
-
+    /**
+     * showing menu list at once
+     * @return (String) menu
+     */
     public String showMenu() {
         return foodController.showMenuList();
     }
 
+    /**
+     * showing unprocessed orders
+     * @return (String) unprocessed orders
+     */
     public String showOrderList() {
         return userController.showUnprocessedOrder();
     }
 
+    /**
+     * Called when a guest leaves the cafe, all data about the user is deleted.
+     * prevents user from leaving the cafe if the user's order has not been processed.
+     * @param orderNumber Order number of the user trying to leave
+     * @return (String) comment about situation
+     */
     public String leavingCafe (String orderNumber) {
         if (checkInputData(orderNumber)) {
             if(userController.exitCafe(orderNumber)) {
@@ -82,6 +105,13 @@ public class Manager {
         }
     }
 
+    /**
+     * handle if the ordered food index is not in the menu
+     * handle whether the order quantity is positive or not
+     * @param input1 food index
+     * @param input2 food count
+     * @return (boolean) success
+     */
     public boolean checkInputFoodNumber (int input1, int input2) {
         boolean success1 = false;
         boolean success2 = false;
@@ -98,7 +128,11 @@ public class Manager {
         }
       }
 
-
+    /**
+     * check if input data is null or not
+     * @param inputStr
+     * @return (boolean) success
+     */
     private static boolean checkInputData(String inputStr) {
         if (inputStr == null) {
             return false;
@@ -107,6 +141,11 @@ public class Manager {
         }
     }
 
+    /**
+     * check if input array is an array containing null values
+     * @param inputArr
+     * @return (boolean) success
+     */
     private static boolean checkInputArray (String[] inputArr) {
         int check = 0;
         boolean success;

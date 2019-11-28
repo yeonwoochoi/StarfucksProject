@@ -15,7 +15,6 @@ import static com.beagle.java.projects.starfucks.utils.Utils.*;
  */
 public class BaristaService {
     BaristaRepository baristaRepository = new BaristaRepository();
-    String[] baristaDataArr = baristaRepository.readAllBaristaData();
 
 
 
@@ -25,6 +24,7 @@ public class BaristaService {
      */
     public String createNewBarista() {
 
+        String[] baristaDataArr = baristaRepository.readAllBaristaData();
 
         // Get index of last barista
         String lastStr = baristaDataArr[baristaDataArr.length - 1];
@@ -97,8 +97,6 @@ public class BaristaService {
         String oldData = updatedBaristaIndex + "/" + oldCountStr + ";";
         String newData = updatedBaristaIndex + "/" + newCountStr + ";";
 
-        System.out.println(oldData);
-        System.out.println(newData);
 
         // update data in BaristaRepository.txt
         baristaRepository.updateBaristaRepository(oldData, newData);
@@ -114,6 +112,7 @@ public class BaristaService {
      * @return (boolean) success
      */
     public boolean reduceOrderCount(String baristaIndexStr) {
+        String[] baristaDataArr = baristaRepository.readAllBaristaData();
 
         String[] eachArr;
         String[] eachArr2;
@@ -170,7 +169,7 @@ public class BaristaService {
      * @return (boolean) success
      */
     public boolean deleteBarista (String baristaIndexStr) {
-
+        String[] baristaDataArr = baristaRepository.readAllBaristaData();
         String[] eachArr;
         String[] eachArr2;
         String eachStr = "";

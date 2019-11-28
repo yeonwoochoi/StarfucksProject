@@ -8,6 +8,15 @@ import java.util.ArrayList;
 
 import static com.beagle.java.projects.starfucks.utils.Utils.stringToInt;
 
+
+
+/**
+ * Returns an appropriate data, such as a list of menus or a receipt based on input order data
+ * Implemented in singleton pattern and will call in Manager class
+ * @see com.beagle.java.projects.starfucks.service.FoodService
+ * @see com.beagle.java.projects.starfucks.repository.FoodRepository
+ * @author Beagle
+ */
 public class FoodController {
 
     FoodRepository foodRepository = new FoodRepository();
@@ -119,6 +128,12 @@ public class FoodController {
     }
 
 
+    /**
+     * take the food number and the food quantity string array created when ordering, calculates the total wait time and the total price, and returns them in a string array.
+     * @param foodIndex
+     * @param foodCount
+     * @return (String[]) {totalWaitingTime, totalPrice}
+     */
     public String[] calculateFoodData(String[] foodIndex, String[] foodCount) {
         String[] outputArr = new String[2];
 
