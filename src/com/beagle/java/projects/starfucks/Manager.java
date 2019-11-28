@@ -13,9 +13,9 @@ import static com.beagle.java.projects.starfucks.utils.Utils.stringToInt;
 
 public class Manager {
 
-    BaristaController baristaController = new BaristaController();
-    FoodController foodController = new FoodController();
-    UserController userController = new UserController();
+    BaristaController baristaController = BaristaController.getInstance();
+    FoodController foodController = FoodController.getInstance();
+    UserController userController = UserController.getInstance();
 
 
     public void getOrders(String[] foodIndexes, String[] foodCounts) {
