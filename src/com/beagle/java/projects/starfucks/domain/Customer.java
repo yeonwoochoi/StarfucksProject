@@ -6,6 +6,13 @@ public class Customer {
     private String phoneNumber;
     private String email;
 
+    public Customer (String id, String name, String phoneNumber, String email) {
+        this.id = id;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
     public String getId() {
         return id;
     }
@@ -21,6 +28,7 @@ public class Customer {
     public String getEmail() {
         return email;
     }
+
 
     public void setId(String id) {
         this.id = id;
