@@ -3,11 +3,13 @@ package com.beagle.java.projects.starfucks.service;
 import com.beagle.java.projects.starfucks.StarFucksList;
 import com.beagle.java.projects.starfucks.controller.CustomerController;
 import com.beagle.java.projects.starfucks.domain.Customer;
+import com.beagle.java.projects.starfucks.repository.CustomerRepository;
 
 
 public class CustomerService {
 
     CustomerController customerController = CustomerController.getInstance();
+    CustomerRepository customerRepository = new CustomerRepository();
 
 
     public StarFucksList<Customer> insertCustomerService(Customer inputClass) {
@@ -47,6 +49,12 @@ public class CustomerService {
             }
         }
         return output;
+    }
+
+
+    public void end() {
+        StarFucksList<Customer> finalData = customerController.getTemporaryStorage();
+        customerRepository.saveToCustomerRepository(finalData);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.beagle.java.projects.starfucks.controller;
 
 
+import com.beagle.java.projects.starfucks.Manager;
 import com.beagle.java.projects.starfucks.StarFucksList;
 import com.beagle.java.projects.starfucks.domain.Customer;
 import com.beagle.java.projects.starfucks.repository.CustomerRepository;
@@ -52,6 +53,11 @@ public class CustomerController {
         StarFucksList<Customer> storage = getTemporaryStorage();
         StarFucksList<Customer> newList = customerService.deleteCustomerService(id);
         setTemporaryStorage(newList);
+    }
+
+
+    public void end() {
+        customerService.end();
     }
 
 }

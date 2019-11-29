@@ -149,6 +149,9 @@ public class Manager {
     }
 
 
+    public void endOfProgram() { customerController.end(); }
+
+
 
 
 

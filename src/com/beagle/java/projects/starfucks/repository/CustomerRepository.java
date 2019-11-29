@@ -39,7 +39,6 @@ public class CustomerRepository {
             e.printStackTrace();
         }
         outputList = stringToLinkedList(output);
-        deleteAllCustomer();
         return outputList;
     }
 
@@ -71,11 +70,12 @@ public class CustomerRepository {
      * Holding updated data in form of StarFucksList and saving it to text file at once when this program ends.
      * @param inputList add the string data in the form of "id/name/phoneNumber/email;"
      */
-    public void createCustomer(StarFucksList<Customer> inputList) {
+    public void saveToCustomerRepository(StarFucksList<Customer> inputList) {
         String inputStr = linkedListToString(inputList);
         File file = new File(filePath);
 
         try {
+            deleteAllCustomer();
             FileWriter fWriter = new FileWriter(file, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fWriter);
 
