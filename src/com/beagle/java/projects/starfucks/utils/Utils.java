@@ -1,5 +1,8 @@
 package com.beagle.java.projects.starfucks.utils;
 
+import com.beagle.java.projects.starfucks.StarFucksList;
+import com.beagle.java.projects.starfucks.domain.Customer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +68,30 @@ public class Utils {
             newObjects[i] = stringToInt(input[i]);
         }
         return newObjects;
+    }
+
+
+
+    public static StarFucksList<Customer> stringToLinkedList(String inputStr) {
+        StarFucksList<Customer> output = new StarFucksList<Customer>();
+        String[] inputArr = inputStr.split(";");
+        String[] eachArr;
+        Customer eachCustomer;
+        for (int i = 0; i < inputArr.length; i++) {
+            eachArr = inputArr[i].split("/");
+            eachCustomer = new Customer(eachArr[0], eachArr[1], eachArr[2], eachArr[3]);
+            output.addLast(eachCustomer);
+        }
+        return output;
+    }
+
+    public static String linkedListToString (StarFucksList<Customer> inputList) {
+        String output = "";
+        StarFucksList<Customer>.ListIterator listIterator = inputList.listIterator();
+        while (listIterator.hasNext()){
+            output += listIterator.next().toString();
+        }
+        return output;
     }
 
 }
