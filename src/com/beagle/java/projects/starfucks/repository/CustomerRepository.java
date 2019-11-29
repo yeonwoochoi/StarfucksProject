@@ -32,7 +32,10 @@ public class CustomerRepository {
     }
 
 
-    
+    /**
+     * When this program is started, readAllCustomer method is called.
+     * @return (StarFucksList) StarFucksList type of Customer datas in CustomerRegistory.txt
+     */
     public StarFucksList<Customer> readAllCustomer() {
         File file = new File(filePath);
         StarFucksList<Customer> outputList;
@@ -56,4 +59,55 @@ public class CustomerRepository {
         outputList = stringToLinkedList(output);
         return outputList;
     }
+
+
+    /**
+     * Method to delete all data in CustomerRepository.txt
+     * When this program is started, readAllCustomer method is called and after that, this method is called.
+     */
+    public void deleteAllCustomer() {
+        String newFilePath = "C:\\Users\\최연우\\IdeaProjects\\StarfucksProject\\src\\com\\beagle\\java\\projects\\starfucks\\repository\\database\\CustomerRepository.txt";
+        File oldFile = new File(filePath);
+        File newFile = new File(newFilePath);
+        try {
+            newFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        oldFile.delete();
+        newFile.renameTo(oldFile);
+    }
+
+
+
+    /**
+     * Method to store input data in CustomerRegistory.txt
+     * Holding updated data in form of StarFucksList and saving it to text file at once when this program ends.
+     * @param inputList add the string data in the form of "id/name/phoneNumber/email;"
+     */
+    public void createCustomer(StarFucksList<Customer> inputList) {
+        String inputStr = linkedListToString(inputList);
+        File file = new File(filePath);
+
+        try {
+            FileWriter fWriter = new FileWriter(file, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fWriter);
+
+            if (file.isFile() && file.canWrite()) {
+                bufferedWriter.write(inputStr);
+                bufferedWriter.close();
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }
