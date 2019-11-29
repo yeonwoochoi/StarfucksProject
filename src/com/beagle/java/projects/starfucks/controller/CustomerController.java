@@ -33,20 +33,24 @@ public class CustomerController {
 
 
     public void insertCustomerController (Customer input) {
-        StarFucksList<Customer> storage = getTemporaryStorage();
-        StarFucksList<Customer> newList = customerService.insertCustomerService(storage, input);
+        StarFucksList<Customer> newList = customerService.insertCustomerService(input);
         setTemporaryStorage(newList);
+    }
+
+    public Customer readCustomerController (String id) {
+        Customer findCustomer = customerService.readCustomerService(id);
+        return findCustomer;
     }
 
     public void updateCustomerController (String id, Customer input) {
         StarFucksList<Customer> storage = getTemporaryStorage();
-        StarFucksList<Customer> newList = customerService.updateCustomerService(storage, id, input);
+        StarFucksList<Customer> newList = customerService.updateCustomerService(id, input);
         setTemporaryStorage(newList);
     }
 
     public void deleteCustomerController (String id) {
         StarFucksList<Customer> storage = getTemporaryStorage();
-        StarFucksList<Customer> newList = customerService.deleteCustomerService(storage, id);
+        StarFucksList<Customer> newList = customerService.deleteCustomerService(id);
         setTemporaryStorage(newList);
     }
 

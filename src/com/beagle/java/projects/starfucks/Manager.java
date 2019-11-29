@@ -1,8 +1,10 @@
 package com.beagle.java.projects.starfucks;
 
 import com.beagle.java.projects.starfucks.controller.BaristaController;
+import com.beagle.java.projects.starfucks.controller.CustomerController;
 import com.beagle.java.projects.starfucks.controller.FoodController;
 import com.beagle.java.projects.starfucks.controller.UserController;
+import com.beagle.java.projects.starfucks.domain.Customer;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,6 +24,7 @@ public class Manager {
     BaristaController baristaController = BaristaController.getInstance();
     FoodController foodController = FoodController.getInstance();
     UserController userController = UserController.getInstance();
+    CustomerController customerController = CustomerController.getInstance();
 
 
     /**
@@ -105,6 +108,50 @@ public class Manager {
         }
     }
 
+
+    public String signUpCustomer(String id, String name, String phoneNumber, String email) {
+        Customer existingCustomer = customerController.readCustomerController(id);
+        if (existingCustomer != null) {
+            Customer newCustomer = new Customer(id, name, phoneNumber, email);
+            customerController.insertCustomerController(newCustomer);
+            return "회원가입 성공";
+        } else {
+            return "이미 존재하는 id 입니다.";
+        }
+    }
+
+    public String viewCustomerData(String id) {
+        Customer findCustomer = customerController.readCustomerController(id);
+        String output = "id  :  " + findCustomer.getId() + "\nname  :  " + findCustomer.getName() + "\nphone number  :  " + findCustomer.getPhoneNumber() + "\nemail  :  " + findCustomer.getEmail();
+        return output;
+    }
+
+    public String editCustomerData(String id, String name, String phoneNumber, String email) {
+        Customer oldData = customerController.readCustomerController(id);
+        Customer newData = new Customer(id, name, phoneNumber, email);
+
+        if (oldData.equals(newData)) {
+            return "이전의 정보와 똑같습니다.";
+        } else {
+            customerController.updateCustomerController(id, newData);
+            return "회원 정보 수정 완료";
+        }
+    }
+
+    public String withdraw(String id) {
+        Customer findData = customerController.readCustomerController(id);
+        if (findData != null) {
+            customerController.deleteCustomerController(id);
+            return "회원 탈퇴 완료";
+        } else {
+            return "존재하지 않은 회원입니다";
+        }
+    }
+
+
+
+
+
     /**
      * handle if the ordered food index is not in the menu
      * handle whether the order quantity is positive or not
@@ -161,4 +208,5 @@ public class Manager {
         }
         return success;
     }
+
 }
