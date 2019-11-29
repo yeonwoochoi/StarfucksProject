@@ -115,6 +115,20 @@ public class StarFucksList<T> {
         return index;
     }
 
+    public StarFucksList<T> reverse(StarFucksList<T> input) {
+        StarFucksList<T> output = new StarFucksList<T>();
+        if (input.size() == 0) {
+            return input;
+        } else {
+            for (int i = 0; i < input.size(); i++) {
+                output.addFirst(input.get(i));
+            }
+            return output;
+        }
+    }
+
+
+
     public ListIterator listIterator() {
         return new ListIterator();
     }
