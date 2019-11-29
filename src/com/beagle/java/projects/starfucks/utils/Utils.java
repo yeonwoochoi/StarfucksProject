@@ -8,7 +8,7 @@ import java.util.List;
  * class with method to convert type or remove null value of array
  * @author Beagle
  */
-public class Utils {
+public class Utils <T> {
 
 
     /**
