@@ -110,23 +110,30 @@ public class Manager {
 
 
     public String signUpCustomer(String id, String name, String phoneNumber, String email) {
-        Customer existingCustomer = customerController.readCustomerController(id);
-        if (existingCustomer != null) {
-            Customer newCustomer = new Customer(id, name, phoneNumber, email);
-            customerController.insertCustomerController(newCustomer);
+        CustomerController customerController = CustomerController.getInstance();
+        Customer findCustomer = customerController.readCustomerController(id);
+        if (findCustomer == null) {
+            Customer input = new Customer(id, name, phoneNumber, email);
+            customerController.insertCustomerController(input);
             return "회원가입 성공";
         } else {
-            return "이미 존재하는 id 입니다.";
+            return "이미 존재하는 아이디입니다.";
         }
     }
 
     public String viewCustomerData(String id) {
+        CustomerController customerController = CustomerController.getInstance();
         Customer findCustomer = customerController.readCustomerController(id);
-        String output = "id  :  " + findCustomer.getId() + "\nname  :  " + findCustomer.getName() + "\nphone number  :  " + findCustomer.getPhoneNumber() + "\nemail  :  " + findCustomer.getEmail();
-        return output;
+        if (findCustomer == null) {
+            return "존재하지 않는 아이디입니다";
+        } else {
+            String output = "id  :  " + findCustomer.getId() + "\nname  :  " + findCustomer.getName() + "\nphone number  :  " + findCustomer.getPhoneNumber() + "\nemail  :  " + findCustomer.getEmail();
+            return output;
+        }
     }
 
     public String editCustomerData(String id, String name, String phoneNumber, String email) {
+        CustomerController customerController = CustomerController.getInstance();
         Customer oldData = customerController.readCustomerController(id);
         Customer newData = new Customer(id, name, phoneNumber, email);
 
@@ -139,6 +146,7 @@ public class Manager {
     }
 
     public String withdraw(String id) {
+        CustomerController customerController = CustomerController.getInstance();
         Customer findData = customerController.readCustomerController(id);
         if (findData != null) {
             customerController.deleteCustomerController(id);
@@ -149,7 +157,16 @@ public class Manager {
     }
 
 
-    public void endOfProgram() { customerController.end(); }
+    public void startProgram() {
+        CustomerController customerController = CustomerController.getInstance();
+        customerController.start();
+    }
+
+
+    public void endOfProgram() {
+        CustomerController customerController = CustomerController.getInstance();
+        customerController.end();
+    }
 
 
 

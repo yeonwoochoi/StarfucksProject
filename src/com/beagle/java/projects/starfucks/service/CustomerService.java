@@ -8,11 +8,15 @@ import com.beagle.java.projects.starfucks.repository.CustomerRepository;
 
 public class CustomerService {
 
-    CustomerController customerController = CustomerController.getInstance();
-    CustomerRepository customerRepository = new CustomerRepository();
+    public CustomerService () {}
+
+    private static CustomerService customerService = new CustomerService();
+    public static CustomerService getInstance() {return customerService;}
+
 
 
     public StarFucksList<Customer> insertCustomerService(Customer inputClass) {
+        CustomerController customerController = CustomerController.getInstance();
         StarFucksList<Customer> newList =  customerController.getTemporaryStorage();
         newList.addLast(inputClass);
         return newList;
@@ -20,6 +24,7 @@ public class CustomerService {
 
 
     public StarFucksList<Customer> updateCustomerService(String id, Customer newData) {
+        CustomerController customerController = CustomerController.getInstance();
         StarFucksList<Customer> newList =  customerController.getTemporaryStorage();
         for (int i = 0; i < newList.size(); i++) {
             if (newList.get(i).getId().equals(id)) {
@@ -31,6 +36,7 @@ public class CustomerService {
     }
 
     public StarFucksList<Customer> deleteCustomerService(String id) {
+        CustomerController customerController = CustomerController.getInstance();
         StarFucksList<Customer> newList =  customerController.getTemporaryStorage();
         for (int i = 0; i < newList.size(); i++) {
             if (newList.get(i).getId().equals(id)) {
@@ -42,19 +48,31 @@ public class CustomerService {
 
     public Customer readCustomerService(String id) {
         Customer output = null;
-        StarFucksList<Customer> newList =  customerController.getTemporaryStorage();
-        for (int i = 0; i < newList.size(); i++) {
-            if (newList.get(i).getId().equals(id)) {
-                output = newList.get(i);
+        try {
+            CustomerController customerController = CustomerController.getInstance();
+            StarFucksList<Customer> newList = customerController.getTemporaryStorage();
+            for (int i = 0; i < newList.size(); i++) {
+                if (newList.get(i).getId().equals(id)) {
+                    output = newList.get(i);
+                }
             }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
         return output;
     }
 
+    public StarFucksList<Customer> start() {
+        CustomerRepository customerRepository = new CustomerRepository();
+        return customerRepository.readAllCustomer();
+    }
 
     public void end() {
+        CustomerController customerController = CustomerController.getInstance();
         StarFucksList<Customer> finalData = customerController.getTemporaryStorage();
+        CustomerRepository customerRepository = new CustomerRepository();
         customerRepository.saveToCustomerRepository(finalData);
     }
+
 
 }
