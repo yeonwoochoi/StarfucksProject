@@ -1,6 +1,9 @@
 package com.beagle.java.projects.starfucks.service;
 
 
+import com.beagle.java.projects.starfucks.StarFucksList;
+import com.beagle.java.projects.starfucks.controller.BaristaController;
+import com.beagle.java.projects.starfucks.domain.Barista;
 import com.beagle.java.projects.starfucks.repository.BaristaRepository;
 
 import static com.beagle.java.projects.starfucks.utils.Utils.*;
@@ -10,198 +13,94 @@ import static com.beagle.java.projects.starfucks.utils.Utils.*;
  * When an order comes in, if the existing working barista has more than 10 jobs, call the new barista or assign work to the existing barista.
  * When an order is processed, if the working barista is doing more than one job, the number of orders being processed is subtracted, and if the processed order was the only thing that was done, delete barista from BaristaRepository.txt
  * @see com.beagle.java.projects.starfucks.repository.BaristaRepository
- * @see BaristaRepository#readAllBaristaData()
  * @author Beagle
  */
 public class BaristaService {
-    BaristaRepository baristaRepository = new BaristaRepository();
+    public BaristaService() {}
+
+    private static BaristaService baristaService = new BaristaService();
+    public static BaristaService getInstance() {return baristaService;}
 
 
-
-    /**
-     * calls a new barista when all baristas are performing 10 orders.
-     * @return (String) Barista index assigned new order.
-     */
-    public String createNewBarista() {
-
-        String[] baristaDataArr = baristaRepository.readAllBaristaData();
-
-        // Get index of last barista
-        String lastStr = baristaDataArr[baristaDataArr.length - 1];
-        String[] newLastArrStr = lastStr.split("/");
-        int[] newLastArr = stringArrayToIntArray(newLastArrStr);
-
-        // The index of the barista to be created
-        int addIndexInt = newLastArr[0] + 1;
-        String addIndexStr = intToString(addIndexInt);
-
-
-        // return the index of the barista to be created
-        String input = addIndexStr + "/1;";
-        if (baristaRepository.saveToBaristaRepository(input)) {
-            return intToString(addIndexInt);
+    public StarFucksList<Barista> callNewBarista() {
+        BaristaController baristaController = BaristaController.getInstance();
+        StarFucksList<Barista> newList =  baristaController.getTemporaryStorage();
+        if (newList != null) {
+            String lastBaristaIndex = newList.get(newList.size()-1).getBaristaIndex();
+            String newBaristaIndex = intToString((stringToInt(lastBaristaIndex))+1);
+            String newLastOrderCount = "1";
+            Barista newBarista = new Barista(newBaristaIndex, newLastOrderCount);
+            newList.addLast(newBarista);
+            return newList;
         } else {
-            return "";
+            return null;
         }
     }
 
 
-    /**
-     * assigns an order to that barista when there is a free barista
-     * @return (String) Barista index assigned new order
-     */
-    public String increaseOrderCount() {
-
-        // variables declaration
-        String[] eachArrStr;
-        int[] eachArr;
-
-        int newCount = 0;
-        int oldCount = 0;
-        String oldCountStr = "";
-        String newCountStr = "";
-
-        String updatedBaristaIndex = "";
-
-
-        int i = 0;
-        boolean run = true;
-        while (i < (baristaRepository.readAllBaristaData()).length && run) {
-
-            // Declare each barista info as an array of strings
-            eachArrStr = (baristaRepository.readAllBaristaData())[i].split("/");
-            eachArr = stringArrayToIntArray(eachArrStr);
-
-            // Each barista has less than 10 orders
-            if (eachArr[1] < 10 && eachArr[1] >= 0) {
-
-                // Update the number of things doing
-                oldCount = eachArr[1];
-                newCount = eachArr[1] + 1;
-                oldCountStr = intToString(oldCount);
-                newCountStr = intToString(newCount);
+    public StarFucksList<Barista> increaseOrderCount(int index) {
+        BaristaController baristaController = BaristaController.getInstance();
+        StarFucksList<Barista> newList =  baristaController.getTemporaryStorage();
+        if (newList != null) {
+            String lastBaristaIndex = newList.get(index).getBaristaIndex();
+            String lastOrderCount = newList.get(index).getOrderCount();
+            String newLastOrderCount = intToString((stringToInt(lastOrderCount))+1);
+            Barista newBarista = new Barista(lastBaristaIndex, newLastOrderCount);
+            newList.remove(index);
+            newList.add(index, newBarista);
+            return newList;
+        } else {
+            return null;
+        }
+    }
 
 
+    public StarFucksList<Barista> decreaseOrderCount(int index) {
+        BaristaController baristaController = BaristaController.getInstance();
+        StarFucksList<Barista> newList =  baristaController.getTemporaryStorage();
+        if (newList != null) {
+            String lastBaristaIndex = newList.get(index).getBaristaIndex();
+            String lastOrderCount = newList.get(index).getOrderCount();
+            String newLastOrderCount = intToString((stringToInt(lastOrderCount))-1);
+            Barista newBarista = new Barista(lastBaristaIndex, newLastOrderCount);
+            newList.remove(index);
+            newList.add(index, newBarista);
+            return newList;
+        } else {
+            return null;
+        }
+    }
 
-                // terminate while statement to update
-                run = false;
 
-                // index of updated barista
-                updatedBaristaIndex = intToString(eachArr[0]);
+    public StarFucksList<Barista> deleteBaristaService(int index) {
+        BaristaController baristaController = BaristaController.getInstance();
+        StarFucksList<Barista> newList =  baristaController.getTemporaryStorage();
+        if (newList != null) {
+            if (index == 0){
+                Barista barista = new Barista("1","0");
+                newList.removeFirst();
+                newList.addFirst(barista);
             } else {
-                i++;
+                newList.remove(index);
             }
-        }
-
-        // Create new data and old data
-        String oldData = updatedBaristaIndex + "/" + oldCountStr + ";";
-        String newData = updatedBaristaIndex + "/" + newCountStr + ";";
-
-
-        // update data in BaristaRepository.txt
-        baristaRepository.updateBaristaRepository(oldData, newData);
-
-        // return the index of the barista to be updated
-        return updatedBaristaIndex;
-    }
-
-
-    /**
-     * substrate order count of barista in BaristaRepository.txt
-     * @param baristaIndexStr Index of barista that was processing the corresponding order
-     * @return (boolean) success
-     */
-    public boolean reduceOrderCount(String baristaIndexStr) {
-        String[] baristaDataArr = baristaRepository.readAllBaristaData();
-
-        String[] eachArr;
-        String[] eachArr2;
-        String eachStr = "";
-        String indexStr = "";
-        String countStr = "";
-
-
-        // find barista data that should be updated by baristaIndex
-        int baristaIndex;
-        for (int i = 0; i < baristaDataArr.length; i++) {
-            eachArr = baristaDataArr[i].split("/");
-            baristaIndex = stringToInt(baristaIndexStr);
-            if (eachArr[0].equals(intToString(baristaIndex))) {
-                eachStr = baristaDataArr[i];
-            }
-        }
-        boolean success;
-        if (eachStr != null) {
-            eachArr2 = eachStr.split("/");
-            indexStr = eachArr2[0];
-            countStr = eachArr2[1];
-
-
-
-            // update orderCount
-            int index = stringToInt(indexStr);
-            int count = stringToInt(countStr);
-
-            String inputIndex = "";
-            String inputCount = "";
-            if (count > 1) {
-                inputIndex = intToString(index);
-                inputCount = intToString(count-1);
-            } else if (count == 1) {
-                inputIndex = intToString(index);
-                inputCount = intToString(count-1);
-            }
-
-            // update BaristaRepository.txt
-            String oldStr3 = indexStr + "/" + countStr + ";";
-            String newStr3 = inputIndex + "/" + inputCount + ";";
-            success = baristaRepository.updateBaristaRepository(oldStr3, newStr3);
+            return newList;
         } else {
-            success = false;
+            return null;
         }
-
-        return success;
     }
 
-    /**
-     * deletes barista from BaristaRepository.txt if the order processed by barista is the only remaining order
-     * @param baristaIndexStr Index of barista that was processing the corresponding order
-     * @return (boolean) success
-     */
-    public boolean deleteBarista (String baristaIndexStr) {
-        String[] baristaDataArr = baristaRepository.readAllBaristaData();
-        String[] eachArr;
-        String[] eachArr2;
-        String eachStr = "";
-        String indexStr = "";
-        String countStr = "";
 
 
-        // find barista data that should be updated by baristaIndex
-        int baristaIndex;
-        for (int i = 0; i < baristaDataArr.length; i++) {
-            eachArr = baristaDataArr[i].split("/");
-            baristaIndex = stringToInt(baristaIndexStr);
-            if (eachArr[0].equals(intToString(baristaIndex))) {
-                eachStr = baristaDataArr[i];
-            }
-        }
-        boolean success;
-        if (eachStr != null) {
-            eachArr2 = eachStr.split("/");
-            indexStr = eachArr2[0];
-            countStr = eachArr2[1];
-
-            // update BaristaRepository.txt
-            String oldStr3 = indexStr + "/" + countStr + ";";
-            String newStr3 = "";
-            success = baristaRepository.updateBaristaRepository(oldStr3, newStr3);
-        } else {
-            success = false;
-        }
-
-        return success;
+    public StarFucksList<Barista> start() {
+        BaristaRepository baristaRepository = new BaristaRepository();
+        return baristaRepository.readAllBarista();
     }
 
+    public void end() {
+        BaristaController baristaController = BaristaController.getInstance();
+        StarFucksList<Barista> finalData = baristaController.getTemporaryStorage();
+        BaristaRepository baristaRepository = new BaristaRepository();
+        baristaRepository.saveToBaristaRepository(finalData);
+    }
 
 }

@@ -5,8 +5,8 @@ import com.beagle.java.projects.starfucks.domain.Customer;
 
 import java.io.*;
 
-import static com.beagle.java.projects.starfucks.utils.Utils.linkedListToString;
-import static com.beagle.java.projects.starfucks.utils.Utils.stringToLinkedList;
+import static com.beagle.java.projects.starfucks.utils.Utils.CustomerLinkedListToString;
+import static com.beagle.java.projects.starfucks.utils.Utils.stringToCustomerLinkedList;
 
 public class CustomerRepository {
 
@@ -38,7 +38,7 @@ public class CustomerRepository {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        outputList = stringToLinkedList(output);
+        outputList = stringToCustomerLinkedList(output);
         return outputList;
     }
 
@@ -71,7 +71,7 @@ public class CustomerRepository {
      * @param inputList add the string data in the form of "id/name/phoneNumber/email;"
      */
     public void saveToCustomerRepository(StarFucksList<Customer> inputList) {
-        String inputStr = linkedListToString(inputList);
+        String inputStr = CustomerLinkedListToString(inputList);
         File file = new File(filePath);
 
         try {

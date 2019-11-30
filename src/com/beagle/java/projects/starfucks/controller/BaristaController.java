@@ -1,10 +1,11 @@
 package com.beagle.java.projects.starfucks.controller;
 
-import com.beagle.java.projects.starfucks.repository.BaristaRepository;
+import com.beagle.java.projects.starfucks.StarFucksList;
+import com.beagle.java.projects.starfucks.domain.Barista;
+import com.beagle.java.projects.starfucks.repository.database.BaristaDataList;
 import com.beagle.java.projects.starfucks.service.BaristaService;
 
-import static com.beagle.java.projects.starfucks.utils.Utils.stringArrayToIntArray;
-import static com.beagle.java.projects.starfucks.utils.Utils.stringToInt;
+import static com.beagle.java.projects.starfucks.utils.Utils.*;
 
 
 /**
@@ -16,73 +17,94 @@ import static com.beagle.java.projects.starfucks.utils.Utils.stringToInt;
  */
 public class BaristaController {
 
-    BaristaRepository baristaRepository = new BaristaRepository();
-    BaristaService baristaService = new BaristaService();
-
+    private BaristaController() {}
 
     private static BaristaController baristaController = new BaristaController();
-    private BaristaController() {}
     public static BaristaController getInstance() {
         return baristaController;
     }
 
 
-    public String getOrderToBarista() {
-        String[] baristaDataArr = baristaRepository.readAllBaristaData();
 
-        int i = 0;
-        boolean run = true;
-        String baristaIndex = "100000000000";
-        int check = 0;
-        while (run) {
-            int[] eachArr = stringArrayToIntArray(baristaDataArr[i].split("/"));
-            if (eachArr[1] >= 0 && eachArr[1] <= 9) {
-                baristaIndex = baristaService.increaseOrderCount();
-                run = false;
-            } else if (eachArr[1] == 10) {
-                check += 1;
-            }
 
-            if ((i == baristaDataArr.length - 1) && (check == baristaDataArr.length) && (run)) {
-                baristaIndex = baristaService.createNewBarista();
-                run = false;
-            }
-            i++;
-            if (i == baristaDataArr.length) {
-                run = false;
-            }
-        }
-        return baristaIndex;
+    BaristaDataList baristaDataList = new BaristaDataList();
+    public StarFucksList<Barista> getTemporaryStorage() {
+        return baristaDataList.getTemporaryStorage();
     }
+    private void setTemporaryStorage(StarFucksList<Barista> input) {baristaDataList.setTemporaryStorage(input);}
 
-    public boolean finishOrderFromBarista(String baristaIndexStr) {
-        String[] baristaDataArr = baristaRepository.readAllBaristaData();
-        int i = 0;
-        boolean run = true;
-        boolean success = false;
-        int eachOrderCount = 0;
-        while (run) {
-            int[] eachArr = stringArrayToIntArray(baristaDataArr[i].split("/"));
-            if (eachArr[0] == stringToInt(baristaIndexStr)) {
-                eachOrderCount = eachArr[1];
-                if (eachOrderCount >= 2 && eachOrderCount <= 10) {
-                    success = baristaService.reduceOrderCount(baristaIndexStr);
+
+
+
+
+
+
+    public String getOrder() {
+        BaristaService baristaService = BaristaService.getInstance();
+        StarFucksList<Barista> baristaList = getTemporaryStorage();
+        StarFucksList<Barista> updatedBaristaList = null;
+        String updatedBaristaIndex = "";
+        if (baristaList != null) {
+            boolean run = true;
+            int i = 0;
+            while (run) {
+                int eachOrderCount = stringToInt(baristaList.get(i).getOrderCount());
+                if (eachOrderCount >= 0 && eachOrderCount < 10) {
+                    updatedBaristaIndex = intToString(i);
+                    updatedBaristaList = baristaService.increaseOrderCount(i);
                     run = false;
-                } else if (eachOrderCount == 1) {
-                    success = baristaService.deleteBarista(baristaIndexStr);
+                } else if (eachOrderCount == 10) {
+                    i++;
+                } else {
+                    run = false;
+                }
+                if (i == baristaList.size() && (!run)) {
+                    run = false;
+                }
+                if ((i == baristaList.size()) && (run)) {
+                    updatedBaristaIndex = intToString(baristaList.size());
+                    updatedBaristaList = baristaService.callNewBarista();
                     run = false;
                 }
             }
-            if ((i == baristaDataArr.length - 1) && (run = true)) {
-                run = false;
-                success = false;
-            }
-            i++;
-            if (i == baristaDataArr.length) {
-                run = false;
-            }
+            setTemporaryStorage(updatedBaristaList);
+            return updatedBaristaIndex;
+        } else {
+            return updatedBaristaIndex;
         }
-        return success;
+    }
 
+
+    public boolean finishOrder(String index) {
+        BaristaService baristaService = BaristaService.getInstance();
+        StarFucksList<Barista> baristaList = getTemporaryStorage();
+        StarFucksList<Barista> updatedBaristaList = null;
+        if (baristaList != null) {
+            String targetOrderCountStr = baristaList.get(stringToInt(index)).getOrderCount();
+            int targetOrderCount = stringToInt(targetOrderCountStr);
+            if (targetOrderCount > 1 && targetOrderCount <= 10) {
+                updatedBaristaList = baristaService.decreaseOrderCount(stringToInt(index));
+            } else if (targetOrderCount <= 1){
+                updatedBaristaList = baristaService.deleteBaristaService(stringToInt(index));
+            }
+            setTemporaryStorage(updatedBaristaList);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
+
+
+    public void start() {
+        BaristaService baristaService = BaristaService.getInstance();
+        setTemporaryStorage(baristaService.start());
+    }
+
+    public void end() {
+        BaristaService baristaService = BaristaService.getInstance();
+        baristaService.end();
     }
 }

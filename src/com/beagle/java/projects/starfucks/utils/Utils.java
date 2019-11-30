@@ -1,6 +1,7 @@
 package com.beagle.java.projects.starfucks.utils;
 
 import com.beagle.java.projects.starfucks.StarFucksList;
+import com.beagle.java.projects.starfucks.domain.Barista;
 import com.beagle.java.projects.starfucks.domain.Customer;
 
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class Utils {
 
 
 
-    public static StarFucksList<Customer> stringToLinkedList(String inputStr) {
+    public static StarFucksList<Customer> stringToCustomerLinkedList(String inputStr) {
         StarFucksList<Customer> output = new StarFucksList<Customer>();
         if (inputStr == null) {
             return null;
@@ -92,17 +93,49 @@ public class Utils {
         }
     }
 
-    public static String linkedListToString (StarFucksList<Customer> inputList) {
+    public static String CustomerLinkedListToString(StarFucksList<Customer> inputList) {
         String output = "";
         if (inputList == null) {
             return "";
         } else {
-            StarFucksList<Customer>.ListIterator listIterator = inputList.listIterator();
-            while (listIterator.hasNext()){
-                output += listIterator.next().toString();
+            for (int i = 0; i < inputList.size(); i++) {
+                output += inputList.get(i).toString();
             }
             return output;
         }
     }
+
+    public static StarFucksList<Barista> stringToBaristaLinkedList(String inputStr) {
+        StarFucksList<Barista> output = new StarFucksList();
+        if (inputStr == null) {
+            return null;
+        } else {
+            String[] inputArr = inputStr.split(";");
+            String[] eachArr;
+            Barista eachBarista;
+
+            for (int i = 0; i < inputArr.length; i++) {
+                eachArr = inputArr[i].split("/");
+                if (eachArr.length == 2) {
+                    eachBarista = new Barista(eachArr[0], eachArr[1]);
+                    output.addLast(eachBarista);
+                }
+            }
+            return output;
+        }
+    }
+
+    public static String BaristaLinkedListToString(StarFucksList<Barista> inputList) {
+        String output = "";
+        if (inputList == null) {
+            return "";
+        } else {
+            for (int i = 0; i < inputList.size(); i++) {
+                output += inputList.get(i).toString();
+            }
+            return output;
+        }
+    }
+
 
 }

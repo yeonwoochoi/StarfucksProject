@@ -48,8 +48,8 @@ public class Manager {
 
 
             // give order to barista and get barista index
-            String baristaIndex = baristaController.getOrderToBarista();
-            System.out.println(baristaIndex);
+            String baristaIndex = baristaController.getOrder();
+            // System.out.println(baristaIndex);
 
 
             // get order from user and store data in UserRepository.txt
@@ -62,7 +62,7 @@ public class Manager {
                 @Override
                 public void run() {
                     System.out.println("주문번호 " + orderIndex + " 고객님. 주문하신 음료와 디저트 나왔습니다.");
-                    baristaController.finishOrderFromBarista(baristaIndex);
+                    baristaController.finishOrder(baristaIndex);
                     userController.pickUpFood(orderIndex);
                 }
             };

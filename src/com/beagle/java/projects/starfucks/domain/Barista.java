@@ -7,27 +7,27 @@ package com.beagle.java.projects.starfucks.domain;
  * @author Beagle
  */
 public class Barista {
-    private int baristaIndex;
-    private int orderCount;
+    private String  baristaIndex;
+    private String orderCount;
 
-    public Barista(int baristaIndex, int orderCount) {
+    public Barista(String baristaIndex, String orderCount) {
         this.baristaIndex = baristaIndex;
         this.orderCount = orderCount;
     }
 
-    public int getBaristaIndex() {
+    public String getBaristaIndex() {
         return this.baristaIndex;
     }
 
-    public int getOrderCount() {
+    public String getOrderCount() {
         return this.orderCount;
     }
 
-    public void setBaristaIndex(int baristaIndex) {
+    public void setBaristaIndex(String baristaIndex) {
         this.baristaIndex = baristaIndex;
     }
 
-    public void setOrderCount(int orderCount) {
+    public void setOrderCount(String orderCount) {
         this.orderCount = orderCount;
     }
 
