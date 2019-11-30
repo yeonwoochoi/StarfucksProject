@@ -111,15 +111,18 @@ public class Main {
                 System.out.println(manager.showOrderList());
                 break;
             case 5:
+                System.out.println("== 바리스타 상황 보기 == \n" + manager.checkBarista());
+                break;
+            case 6:
                 System.out.println("== 카페 나가기 ==\n");
                 int inputData = getInput();
                 System.out.println(manager.leavingCafe(intToString(inputData)));
                 break;
-            case 6:
+            case 7:
                 manager.endOfProgram();
                 System.exit(0);
             default:
-                System.out.println("1,2,3,4,5,6 중 하나만 입력해주십시오.");
+                System.out.println("1,2,3,4,5,6,7 중 하나만 입력해주십시오.");
         }
     }
 
@@ -159,8 +162,9 @@ public class Main {
                 "2. 회원 정보 관리\n" +
                 "3. 메뉴 보기\n" +
                 "4. 주문 목록 보기\n" +
-                "5. 카페 나가기\n" +
-                "6. 프로그램 종료\n" +
+                "5. 바리스타 상황 보기\n" +
+                "6. 카페 나가기\n" +
+                "7. 프로그램 종료\n" +
                 "---------------------------------\n" +
                 "입력 >> ";
 

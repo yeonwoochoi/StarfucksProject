@@ -95,6 +95,18 @@ public class BaristaController {
     }
 
 
+    public String checkBarsitaState () {
+        StarFucksList<Barista> baristaStarFucksList = getTemporaryStorage();
+        String output = "";
+        if (baristaStarFucksList != null) {
+            for (int i = 0; i < baristaStarFucksList.size(); i++) {
+                output += "barista index  :  " + baristaStarFucksList.get(i).getBaristaIndex() + "\t\torder count  :  " + baristaStarFucksList.get(i).getOrderCount() + "\n";
+            }
+        }
+        return output;
+    }
+
+
 
 
 

@@ -73,6 +73,10 @@ public class Manager {
         }
     }
 
+    public String checkBarista() {
+        return baristaController.checkBarsitaState();
+    }
+
 
     /**
      * showing menu list at once
