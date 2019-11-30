@@ -1,4 +1,4 @@
-package com.beagle.java.projects.starfucks;
+package com.beagle.java.projects.starfucks.collection;
 
 public class StarFucksList<T> {
     private Node head;

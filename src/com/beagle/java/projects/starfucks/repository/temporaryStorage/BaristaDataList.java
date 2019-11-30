@@ -1,7 +1,7 @@
-package com.beagle.java.projects.starfucks.repository.database;
+package com.beagle.java.projects.starfucks.repository.temporaryStorage;
 
 
-import com.beagle.java.projects.starfucks.StarFucksList;
+import com.beagle.java.projects.starfucks.collection.StarFucksList;
 import com.beagle.java.projects.starfucks.domain.Barista;
 
 public class BaristaDataList {

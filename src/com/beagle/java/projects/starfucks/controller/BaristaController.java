@@ -1,8 +1,8 @@
 package com.beagle.java.projects.starfucks.controller;
 
-import com.beagle.java.projects.starfucks.StarFucksList;
+import com.beagle.java.projects.starfucks.collection.StarFucksList;
 import com.beagle.java.projects.starfucks.domain.Barista;
-import com.beagle.java.projects.starfucks.repository.database.BaristaDataList;
+import com.beagle.java.projects.starfucks.repository.temporaryStorage.BaristaDataList;
 import com.beagle.java.projects.starfucks.service.BaristaService;
 
 import static com.beagle.java.projects.starfucks.utils.Utils.*;

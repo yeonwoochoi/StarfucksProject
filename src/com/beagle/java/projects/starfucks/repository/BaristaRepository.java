@@ -1,6 +1,6 @@
 package com.beagle.java.projects.starfucks.repository;
 
-import com.beagle.java.projects.starfucks.StarFucksList;
+import com.beagle.java.projects.starfucks.collection.StarFucksList;
 import com.beagle.java.projects.starfucks.domain.Barista;
 
 import java.io.*;

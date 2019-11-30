@@ -4,6 +4,7 @@ import com.beagle.java.projects.starfucks.controller.BaristaController;
 import com.beagle.java.projects.starfucks.controller.CustomerController;
 import com.beagle.java.projects.starfucks.controller.FoodController;
 import com.beagle.java.projects.starfucks.controller.UserController;
+import com.beagle.java.projects.starfucks.domain.Barista;
 import com.beagle.java.projects.starfucks.domain.Customer;
 
 import java.util.Timer;
@@ -117,9 +118,19 @@ public class Manager {
         CustomerController customerController = CustomerController.getInstance();
         Customer findCustomer = customerController.readCustomerController(id);
         if (findCustomer == null) {
-            Customer input = new Customer(id, name, phoneNumber, email);
-            customerController.insertCustomerController(input);
-            return "회원가입 성공";
+            if (id.contains("/") || id.contains(";")){
+                return "적절하지 않은 id 값입니다.";
+            } else if (name.contains("/") || name.contains(";")) {
+                return "적절하지 않은 name 값입니다.";
+            } else if (phoneNumber.contains("/") || phoneNumber.contains(";")) {
+                return "적절하지 않은 phone number 값입니다.";
+            } else if (email.contains("/") || email.contains(";")) {
+                return "적절하지 않은 email 값입니다.";
+            } else {
+                Customer input = new Customer(id, name, phoneNumber, email);
+                customerController.insertCustomerController(input);
+                return "회원가입 성공";
+            }
         } else {
             return "이미 존재하는 아이디입니다.";
         }
@@ -131,8 +142,19 @@ public class Manager {
         if (findCustomer == null) {
             return "존재하지 않는 아이디입니다";
         } else {
-            String output = "id  :  " + findCustomer.getId() + "\nname  :  " + findCustomer.getName() + "\nphone number  :  " + findCustomer.getPhoneNumber() + "\nemail  :  " + findCustomer.getEmail();
-            return output;
+            if (id.contains("/") || id.contains(";")){
+                return "적절하지 않은 id 값입니다.";
+            } else if (findCustomer.getName().contains("/") || findCustomer.getName().contains(";")) {
+                return "적절하지 않은 name 값입니다.";
+            } else if (findCustomer.getPhoneNumber().contains("/") || findCustomer.getPhoneNumber().contains(";")) {
+                return "적절하지 않은 phone number 값입니다.";
+            } else if (findCustomer.getEmail().contains("/") || findCustomer.getEmail().contains(";")) {
+                return "적절하지 않은 email 값입니다.";
+            } else {
+                String output = "id  :  " + findCustomer.getId() + "\nname  :  " + findCustomer.getName() + "\nphone number  :  " + findCustomer.getPhoneNumber() + "\nemail  :  " + findCustomer.getEmail();
+                return output;
+            }
+
         }
     }
 
@@ -141,7 +163,7 @@ public class Manager {
         Customer oldData = customerController.readCustomerController(id);
         Customer newData = new Customer(id, name, phoneNumber, email);
 
-        if (oldData.equals(newData)) {
+        if (oldData.getName().equals(newData.getName()) && oldData.getPhoneNumber().equals(newData.getPhoneNumber()) && oldData.getEmail().equals(newData.getEmail())) {
             return "이전의 정보와 똑같습니다.";
         } else {
             customerController.updateCustomerController(id, newData);
@@ -163,13 +185,17 @@ public class Manager {
 
     public void startProgram() {
         CustomerController customerController = CustomerController.getInstance();
+        BaristaController baristaController = BaristaController.getInstance();
         customerController.start();
+        baristaController.start();
     }
 
 
     public void endOfProgram() {
         CustomerController customerController = CustomerController.getInstance();
+        BaristaController baristaController = BaristaController.getInstance();
         customerController.end();
+        baristaController.end();
     }
 
 

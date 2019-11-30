@@ -1,6 +1,6 @@
 package com.beagle.java.projects.starfucks.service;
 
-import com.beagle.java.projects.starfucks.StarFucksList;
+import com.beagle.java.projects.starfucks.collection.StarFucksList;
 import com.beagle.java.projects.starfucks.controller.CustomerController;
 import com.beagle.java.projects.starfucks.domain.Customer;
 import com.beagle.java.projects.starfucks.repository.CustomerRepository;
