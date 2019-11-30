@@ -74,24 +74,35 @@ public class Utils {
 
     public static StarFucksList<Customer> stringToLinkedList(String inputStr) {
         StarFucksList<Customer> output = new StarFucksList<Customer>();
-        String[] inputArr = inputStr.split(";");
-        String[] eachArr;
-        Customer eachCustomer;
-        for (int i = 0; i < inputArr.length; i++) {
-            eachArr = inputArr[i].split("/");
-            eachCustomer = new Customer(eachArr[0], eachArr[1], eachArr[2], eachArr[3]);
-            output.addLast(eachCustomer);
+        if (inputStr == null) {
+            return null;
+        } else {
+            String[] inputArr = inputStr.split(";");
+            String[] eachArr;
+            Customer eachCustomer;
+
+            for (int i = 0; i < inputArr.length; i++) {
+                eachArr = inputArr[i].split("/");
+                if (eachArr.length == 4) {
+                    eachCustomer = new Customer(eachArr[0], eachArr[1], eachArr[2], eachArr[3]);
+                    output.addLast(eachCustomer);
+                }
+            }
+            return output;
         }
-        return output;
     }
 
     public static String linkedListToString (StarFucksList<Customer> inputList) {
         String output = "";
-        StarFucksList<Customer>.ListIterator listIterator = inputList.listIterator();
-        while (listIterator.hasNext()){
-            output += listIterator.next().toString();
+        if (inputList == null) {
+            return "";
+        } else {
+            StarFucksList<Customer>.ListIterator listIterator = inputList.listIterator();
+            while (listIterator.hasNext()){
+                output += listIterator.next().toString();
+            }
+            return output;
         }
-        return output;
     }
 
 }

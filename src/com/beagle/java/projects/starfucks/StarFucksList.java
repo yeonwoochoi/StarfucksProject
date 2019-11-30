@@ -99,7 +99,11 @@ public class StarFucksList<T> {
 
     public T get(int index) {
         Node temp = node(index);
-        return temp.data;
+        if (temp == null) {
+            return null;
+        } else {
+            return temp.data;
+        }
     }
 
     public int indexOf(T data) {

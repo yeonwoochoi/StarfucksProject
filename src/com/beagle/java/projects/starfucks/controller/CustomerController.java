@@ -47,14 +47,12 @@ public class CustomerController {
 
     public void updateCustomerController (String id, Customer input) {
         CustomerService customerService = CustomerService.getInstance();
-        StarFucksList<Customer> storage = getTemporaryStorage();
         StarFucksList<Customer> newList = customerService.updateCustomerService(id, input);
         setTemporaryStorage(newList);
     }
 
     public void deleteCustomerController (String id) {
         CustomerService customerService = CustomerService.getInstance();
-        StarFucksList<Customer> storage = getTemporaryStorage();
         StarFucksList<Customer> newList = customerService.deleteCustomerService(id);
         setTemporaryStorage(newList);
     }

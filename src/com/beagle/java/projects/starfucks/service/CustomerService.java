@@ -18,8 +18,14 @@ public class CustomerService {
     public StarFucksList<Customer> insertCustomerService(Customer inputClass) {
         CustomerController customerController = CustomerController.getInstance();
         StarFucksList<Customer> newList =  customerController.getTemporaryStorage();
-        newList.addLast(inputClass);
-        return newList;
+        if (newList == null) {
+            StarFucksList<Customer> starFucksList = new StarFucksList();
+            starFucksList.addFirst(inputClass);
+            return starFucksList;
+        } else {
+            newList.addLast(inputClass);
+            return newList;
+        }
     }
 
 
@@ -51,9 +57,13 @@ public class CustomerService {
         try {
             CustomerController customerController = CustomerController.getInstance();
             StarFucksList<Customer> newList = customerController.getTemporaryStorage();
-            for (int i = 0; i < newList.size(); i++) {
-                if (newList.get(i).getId().equals(id)) {
-                    output = newList.get(i);
+            if (customerController.getTemporaryStorage() == null) {
+                output = null;
+            } else {
+                for (int i = 0; i < newList.size(); i++) {
+                    if (newList.get(i).getId().equals(id)) {
+                        output = newList.get(i);
+                    }
                 }
             }
         } catch (NullPointerException e) {
