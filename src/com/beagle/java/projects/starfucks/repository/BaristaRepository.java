@@ -47,7 +47,7 @@ public class BaristaRepository {
 
 
     public void deleteAllBarista() {
-        String newFilePath = "C:\\Users\\최연우\\IdeaProjects\\starfucksPractice\\src\\baristaPackage\\practice1.txt";
+        String newFilePath = "C:\\Users\\최연우\\IdeaProjects\\StarfucksProject\\src\\com\\beagle\\java\\projects\\starfucks\\repository\\database\\pseudoFile.txt";
         File oldFile = new File(filePath);
         File newFile = new File(newFilePath);
         try {

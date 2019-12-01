@@ -7,47 +7,46 @@ package com.beagle.java.projects.starfucks.domain;
  * @author Beagle
  */
 public class User {
+    private String orderNumber;
+    private String baristaIndex;
+    private String waitingTime;
+    private String holdingBell;
 
-    private int orderNumber;
-    private int baristaIndex;
-    private int waitingTime;
-    private boolean holdingBell;
 
-
-    public User (int orderNumber, int baristaIndex, int waitingTime, boolean holdingBell) {
+    public User (String orderNumber, String baristaIndex, String waitingTime, String holdingBell) {
         this.orderNumber = orderNumber;
         this.baristaIndex = baristaIndex;
         this.waitingTime = waitingTime;
         this.holdingBell = holdingBell;
     }
 
-    public int getOrderNumber() {
+    public String getOrderNumber() {
         return this.orderNumber;
     }
 
-    public int getBaristaIndex() { return this.baristaIndex; }
+    public String getBaristaIndex() { return this.baristaIndex; }
 
-    public int getWaitingTime() {
+    public String getWaitingTime() {
         return this.waitingTime;
     }
 
-    public boolean isHoldingBell() {
+    public String isHoldingBell() {
         return this.holdingBell;
     }
 
-    public void setOrderNumber(int orderNumber) {
+    public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
     }
 
-    public void setBaristaIndex(int baristaIndex) {
+    public void setBaristaIndex(String baristaIndex) {
         this.baristaIndex = baristaIndex;
     }
 
-    public void setWaitingTime(int waitingTime) {
+    public void setWaitingTime(String waitingTime) {
         this.waitingTime = waitingTime;
     }
 
-    public void setHoldingBell(boolean holdingBell) {
+    public void setHoldingBell(String holdingBell) {
         this.holdingBell = holdingBell;
     }
 

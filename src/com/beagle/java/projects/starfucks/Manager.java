@@ -95,7 +95,7 @@ public class Manager {
      * @return (String) comment about situation
      */
     public String leavingCafe (String orderNumber) {
-        if (checkInputData(orderNumber)) {
+        if (orderNumber != null) {
             if(userController.exitCafe(orderNumber)) {
                 return "안녕히 가십시오.";
             } else {
@@ -180,17 +180,21 @@ public class Manager {
         CustomerController customerController = CustomerController.getInstance();
         BaristaController baristaController = BaristaController.getInstance();
         FoodController foodController = FoodController.getInstance();
+        UserController userController = UserController.getInstance();
         customerController.start();
         baristaController.start();
         foodController.start();
+        userController.start();
     }
 
 
     public void endOfProgram() {
         CustomerController customerController = CustomerController.getInstance();
         BaristaController baristaController = BaristaController.getInstance();
+        UserController userController = UserController.getInstance();
         customerController.end();
         baristaController.end();
+        userController.end();
     }
 
 
