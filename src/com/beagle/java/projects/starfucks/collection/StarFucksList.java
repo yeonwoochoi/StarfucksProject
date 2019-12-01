@@ -7,8 +7,10 @@ public class StarFucksList<T> {
     private class Node {
         private T data;
         private Node next;
+        private Node previous;
         public Node (T input) {
             this.data = input;
+            this.previous = null;
             this.next = null;
         }
         public String toString() {
@@ -20,12 +22,15 @@ public class StarFucksList<T> {
     public void addFirst (T input) {
         Node newNode = new Node (input);
         newNode.next = head;
+        if (head != null) {
+            head.previous = newNode;
+        }
         head = newNode;
         size++;
-
         if (head.next == null) {
             tail = head;
         }
+
     }
 
     public void addLast (T input) {
@@ -34,17 +39,26 @@ public class StarFucksList<T> {
         } else {
             Node newNode = new Node (input);
             tail.next = newNode;
+            newNode.previous = tail;
             tail = newNode;
             size ++;
         }
     }
 
     Node node (int index) {
-        Node findNode = head;
-        for (int i = 0; i < index; i++) {
-            findNode = findNode.next;
+        if ((size() / 2) > index) {
+            Node findNode = head;
+            for (int i = 0; i < index; i++) {
+                findNode = findNode.next;
+            }
+            return findNode;
+        } else {
+            Node findNode = tail;
+            for (int i = size()-1; i > index; i--) {
+                findNode = findNode.previous;
+            }
+            return findNode;
         }
-        return findNode;
     }
 
     public void add (int index, T input) {
@@ -54,10 +68,13 @@ public class StarFucksList<T> {
             Node temp1 = node(index-1);
             Node temp2 = temp1.next;
             Node newNode = new Node(input);
-            temp1.next = newNode;
             newNode.next = temp2;
+            temp1.next = newNode;
+            if (temp1 != null) {
+                temp2.previous = newNode;
+            }
+            newNode.previous = temp1;
             size++;
-
             if (newNode.next == null) {
                 tail = newNode;
             }
@@ -69,6 +86,9 @@ public class StarFucksList<T> {
         head = temp.next;
         T returnData = temp.data;
         temp = null;
+        if (head != null) {
+            head.previous = null;
+        }
         size--;
         return returnData;
     }
@@ -80,8 +100,11 @@ public class StarFucksList<T> {
         Node temp1 = node(index -1);
         Node todoDeleted = temp1.next;
         temp1.next = temp1.next.next;
+        if (temp1.next != null) {
+            temp1.next.previous = temp1;
+        }
         T returnData = todoDeleted.data;
-        if (todoDeleted == tail ) {
+        if (todoDeleted == tail) {
             tail = temp1;
         }
         todoDeleted = null;
@@ -129,59 +152,5 @@ public class StarFucksList<T> {
             }
             return output;
         }
-    }
-
-
-
-    public ListIterator listIterator() {
-        return new ListIterator();
-    }
-
-
-    public class ListIterator {
-        private Node lastReturned;
-        private Node next;
-        private int nextIndex;
-
-
-        ListIterator() {
-            next = head;
-            nextIndex = 0;
-        }
-
-        public T next() {
-            lastReturned = next;
-            next = next.next;
-            nextIndex ++;
-            return lastReturned.data;
-        }
-
-        public boolean hasNext() {
-            return nextIndex < size();
-        }
-
-        public void add(T input) {
-            Node newNode = new Node(input);
-            if (lastReturned == null) {
-                head = newNode;
-                newNode.next = next;
-            } else {
-                lastReturned.next = newNode;
-                newNode.next = next;
-            }
-            lastReturned = newNode;
-            nextIndex ++;
-            size ++;
-        }
-
-        public void remove() {
-            if (nextIndex == 0) {
-                throw new IllegalStateException();
-            }
-            StarFucksList.this.remove(nextIndex - 1);
-            nextIndex--;
-        }
-
-
     }
 }
