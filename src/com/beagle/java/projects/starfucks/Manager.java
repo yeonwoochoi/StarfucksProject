@@ -6,6 +6,7 @@ import com.beagle.java.projects.starfucks.controller.CustomerController;
 import com.beagle.java.projects.starfucks.controller.FoodController;
 import com.beagle.java.projects.starfucks.controller.UserController;
 import com.beagle.java.projects.starfucks.domain.Customer;
+import com.beagle.java.projects.starfucks.domain.User;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -87,6 +88,11 @@ public class Manager {
     public String showOrderList() {
         return userController.showUnprocessedOrder();
     }
+
+    public String showUserInCafe() {
+        return userController.readAllUser();
+    }
+
 
     /**
      * Called when a guest leaves the cafe, all data about the user is deleted.

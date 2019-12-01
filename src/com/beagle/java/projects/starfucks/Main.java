@@ -110,8 +110,18 @@ public class Main {
                 System.out.println(manager.showMenu());
                 break;
             case 4:
-                System.out.println("== 주문 목록 보기 ==\n");
-                System.out.println(manager.showOrderList());
+                System.out.println("== 주문 목록 보기 ==\n1.대기 중인 주문 목록\n2.카페에 있는 손님 목록\n");
+                int inputData1 = getInput();
+                if (inputData1 == 1) {
+                    System.out.println("-- 1.대기 중인 주문 목록 --");
+                    System.out.println(manager.showOrderList());
+                } else if (inputData1 == 2){
+                    System.out.println("-- 2.카페에 있는 손님 목록 --");
+                    System.out.println(manager.showUserInCafe());
+                } else {
+                    System.out.println("1,2 중 하나만 입력해주십시오");
+                }
+
                 break;
             case 5:
                 System.out.println("== 바리스타 상황 보기 == \n" + manager.checkBarista());

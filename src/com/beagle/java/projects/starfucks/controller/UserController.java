@@ -91,6 +91,17 @@ public class UserController {
     }
 
 
+    public String  readAllUser() {
+        StarFucksList<User> userListInCafe =  getTemporaryStorage();
+        String output = "";
+        for (int i = 0; i < userListInCafe.size(); i++) {
+            User eachUser = userListInCafe.get(i);
+            output += "주문 번호 : " + eachUser.getOrderNumber() + "   바리스타 : " + eachUser.getBaristaIndex() + "   대기 시간 : " + eachUser.getWaitingTime() + "   진동벨 소유 : " + eachUser.isHoldingBell() + "\n";
+        }
+        return output;
+    }
+
+
 
     public void start() {
         UserService userService = UserService.getInstance();
