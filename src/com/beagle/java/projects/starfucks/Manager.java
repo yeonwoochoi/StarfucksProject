@@ -102,11 +102,7 @@ public class Manager {
      */
     public String leavingCafe (String orderNumber) {
         if (orderNumber != null) {
-            if(userController.exitCafe(orderNumber)) {
-                return "안녕히 가십시오.";
-            } else {
-                return "아직 음료가 나오지 않았습니다. 조금만 기다려 주십시오.";
-            }
+            return userController.exitCafe(orderNumber);
         } else {
             return "값을 입력해 주십시오.";
         }

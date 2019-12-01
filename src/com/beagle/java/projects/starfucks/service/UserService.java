@@ -71,6 +71,18 @@ public class UserService {
 
     }
 
+    public User findUser(String orderNumber) {
+        UserController userController = UserController.getInstance();
+        StarFucksList<User> userList = userController.getTemporaryStorage();
+        User targetData = null;
+        for (int i = 0; i < userList.size(); i++) {
+            User oldData = userList.get(i);
+            if (oldData.getOrderNumber().equals(orderNumber)) {
+                targetData = oldData;
+            }
+        }
+        return targetData;
+    }
 
 
 

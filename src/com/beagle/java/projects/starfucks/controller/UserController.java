@@ -6,7 +6,6 @@ import com.beagle.java.projects.starfucks.repository.temporaryStorage.UserDataLi
 import com.beagle.java.projects.starfucks.service.UserService;
 
 
-
 /**
  * create and process user data by receiving order number created when order is placed and barista index assigned to order
  * Implemented in singleton pattern and will call in Manager class
@@ -65,13 +64,18 @@ public class UserController {
      * @param orderIndex  Order number of outgoing guest
      * @return (boolean) success
      */
-    public boolean exitCafe(String orderIndex) {
+    public String exitCafe(String orderIndex) {
         UserService userService = UserService.getInstance();
-        if (userService.deleteUser(orderIndex) != null){
-            setTemporaryStorage(userService.deleteUser(orderIndex));
-            return true;
+        User userList1 = userService.findUser(orderIndex);
+        if (userList1 == null) {
+            return "이미 카페를 떠나셨습니다.";
         } else {
-            return false;
+            if(userList1.isHoldingBell().equals("O")) {
+                return "아직 음료가 나오지 않았습니다. 조금만 기다려 주십시오.";
+            } else {
+                setTemporaryStorage(userService.deleteUser(orderIndex));
+                return "안녕히 가십시오.";
+            }
         }
     }
 
