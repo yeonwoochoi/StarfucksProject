@@ -3,6 +3,7 @@ package com.beagle.java.projects.starfucks.utils;
 import com.beagle.java.projects.starfucks.collection.StarFucksList;
 import com.beagle.java.projects.starfucks.domain.Barista;
 import com.beagle.java.projects.starfucks.domain.Customer;
+import com.beagle.java.projects.starfucks.domain.Food;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,6 +133,26 @@ public class Utils {
         } else {
             for (int i = 0; i < inputList.size(); i++) {
                 output += inputList.get(i).toString();
+            }
+            return output;
+        }
+    }
+
+    public static StarFucksList<Food> stringToFoodLinkedList(String inputStr) {
+        StarFucksList<Food> output = new StarFucksList<Food>();
+        if (inputStr == null) {
+            return null;
+        } else {
+            String[] inputArr = inputStr.split(";");
+            String[] eachArr;
+            Food eachFood;
+
+            for (int i = 0; i < inputArr.length; i++) {
+                eachArr = inputArr[i].split("/");
+                if (eachArr.length == 4) {
+                    eachFood = new Food(eachArr[0], eachArr[1], eachArr[2], eachArr[3]);
+                    output.addLast(eachFood);
+                }
             }
             return output;
         }

@@ -1,10 +1,13 @@
 package com.beagle.java.projects.starfucks;
 
-import javax.rmi.ssl.SslRMIClientSocketFactory;
+import com.beagle.java.projects.starfucks.collection.StarFucksList;
+
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static com.beagle.java.projects.starfucks.utils.Utils.intToString;
+import static com.beagle.java.projects.starfucks.utils.Utils.stringToInt;
 
 public class Main {
     static Manager manager = new Manager();
@@ -31,19 +34,19 @@ public class Main {
         switch (value) {
             case 1:
                 System.out.println("== 주문하기 ==\n");
-                String foodIndex = "";
-                String foodCount = "";
+                StarFucksList<String> foodIndexList = new StarFucksList<>();
+                StarFucksList<String> foodCountList = new StarFucksList<>();
                 boolean run = true;
                 while (run) {
                     System.out.println(manager.showMenu());
                     System.out.println("음식 >> \n");
-                    int inputData1 = getInput();
+                    String  inputData1 = getInputStr();
                     System.out.println("수량 >> \n");
-                    int inputData2 = getInput();
+                    String  inputData2 = getInputStr();
 
-                    if (manager.checkInputFoodNumber(inputData1, inputData2)) {
-                        foodIndex += inputData1 + "/";
-                        foodCount += inputData2 + "/";
+                    if (manager.checkInputFoodNumber(stringToInt(inputData1), stringToInt(inputData2))) {
+                        foodIndexList.addLast(inputData1);
+                        foodCountList.addLast(inputData2);
                     } else {
                         System.out.println("잘못된 입력입니다. 다시 입력해 주십시오.");
                     }
@@ -54,7 +57,7 @@ public class Main {
                         run = false;
                     }
                 }
-                manager.getOrders(foodIndex.split("/"), foodCount.split("/"));
+                manager.getOrders(foodIndexList, foodCountList);
                 break;
             case 2:
                 System.out.println("== 회원 정보 관리 ==\n\n1.회원 가입하기\n2.회원 정보 검색\n3.회원 정보 업데이트\n4.회원 탈퇴\n\n입력 >> ");

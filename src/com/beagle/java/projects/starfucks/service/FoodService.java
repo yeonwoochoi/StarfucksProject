@@ -1,6 +1,9 @@
 package com.beagle.java.projects.starfucks.service;
 
 
+import com.beagle.java.projects.starfucks.collection.StarFucksList;
+import com.beagle.java.projects.starfucks.controller.FoodController;
+import com.beagle.java.projects.starfucks.domain.Food;
 import com.beagle.java.projects.starfucks.repository.FoodRepository;
 
 import java.util.ArrayList;
@@ -13,56 +16,47 @@ import static com.beagle.java.projects.starfucks.utils.Utils.*;
  * @author Beagle
  */
 public class FoodService {
-    FoodRepository foodRepository = new FoodRepository();
 
-    private int calculateFoodData (String[] foodIndexArr, String[] foodCountArr, int choice) {
-        String[] foodDataArr = (foodRepository.readAllFoodData()).split(";");
-        ArrayList arrayList = new ArrayList();
-        for (int i = 0; i < foodDataArr.length; i++) {
-            String[] eachFoodDataArr = foodDataArr[i].split("/");
-            for (int j = 0; j < foodIndexArr.length; j++) {
-                if (eachFoodDataArr[0].equals(foodIndexArr[j])){
-                    arrayList.add(eachFoodDataArr);
+
+    private int calculateFoodData (StarFucksList<String> foodIndexArr, StarFucksList<String> foodCountArr, int choice) {
+        FoodController foodController = FoodController.getInstance();
+        StarFucksList<Food> recordList = foodController.getTemporaryStorage();
+
+        int price = 0;
+        int time = 0;
+
+        for (int i = 0; i < recordList.size(); i++) {
+            for (int j = 0; j < foodIndexArr.size(); j++) {
+                if (recordList.get(i).getFoodIndex().equals(foodIndexArr.get(j))) {
+                    price += stringToInt(recordList.get(i).getFoodPrice()) * stringToInt(foodCountArr.get(j));
+                    time += stringToInt(recordList.get(i).getConsumedTime()) * stringToInt(foodCountArr.get(j));
                 }
             }
         }
 
-        String priceStr = "";
-        String timeStr = "";
-
-        int[] priceArr;
-        int[] timeArr;
-        for (int i = 0; i < arrayList.size(); i++) {
-            String[] eachArr = (String[]) arrayList.get(i);
-            priceStr += eachArr[2] + "/";
-            timeStr += eachArr[3] + "/";
-        }
-        priceArr = stringArrayToIntArray(removeNullValue(priceStr.split("/")));
-        timeArr = stringArrayToIntArray((removeNullValue(timeStr.split("/"))));
-        int[] countArr = stringArrayToIntArray(foodCountArr);
-
-        int total = 0;
         if (choice == 0) {
-            for (int i = 0; i < priceArr.length; i++) {
-                total += (priceArr[i] * countArr[i]);
-            }
+            return price;
         } else {
-            for (int i = 0; i < priceArr.length; i++) {
-                total += (timeArr[i] * countArr[i]);
-            }
+            return time;
         }
-        return total;
     }
 
 
-    public String calculateWaitingTime(String[] foodIndexArr, String[] foodCountArr) {
+    public String calculateTotalPrice(StarFucksList<String> foodIndexArr, StarFucksList<String> foodCountArr) {
+        int totalPrice = calculateFoodData(foodIndexArr, foodCountArr, 0);
+        return intToString(totalPrice);
+    }
+
+    public String calculateWaitingTime(StarFucksList<String> foodIndexArr, StarFucksList<String> foodCountArr) {
         int totalTime = calculateFoodData(foodIndexArr, foodCountArr, 1);
         return intToString(totalTime);
     }
 
-    public String calculateTotalPrice(String[] foodIndexArr, String[] foodCountArr) {
-        int totalPrice = calculateFoodData(foodIndexArr, foodCountArr, 0);
-        return intToString(totalPrice);
+
+    public StarFucksList<Food> start() {
+        FoodRepository foodRepository = new FoodRepository();
+        return stringToFoodLinkedList(foodRepository.readAllFoodData());
     }
+
 
 }

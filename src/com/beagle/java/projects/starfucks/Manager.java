@@ -1,10 +1,10 @@
 package com.beagle.java.projects.starfucks;
 
+import com.beagle.java.projects.starfucks.collection.StarFucksList;
 import com.beagle.java.projects.starfucks.controller.BaristaController;
 import com.beagle.java.projects.starfucks.controller.CustomerController;
 import com.beagle.java.projects.starfucks.controller.FoodController;
 import com.beagle.java.projects.starfucks.controller.UserController;
-import com.beagle.java.projects.starfucks.domain.Barista;
 import com.beagle.java.projects.starfucks.domain.Customer;
 
 import java.util.Timer;
@@ -33,45 +33,38 @@ public class Manager {
      * @param foodIndexes Array of indexes of food ordered by a guest
      * @param foodCounts Array of counts of food ordered by a guest
      */
-    public void getOrders(String[] foodIndexes, String[] foodCounts) {
+    public void getOrders(StarFucksList<String> foodIndexes, StarFucksList<String> foodCounts) {
 
 
-        // check input data adequacy
-        if (checkInputArray(foodIndexes) && checkInputArray(foodCounts)) {
-            String receipt = foodController.makeReceipt(foodIndexes, foodCounts);
-            System.out.println("-- receipt --\n" + receipt);
+        String receipt = foodController.makeReceipt(foodIndexes, foodCounts);
+        System.out.println("-- receipt --\n" + receipt);
 
-            // get total waiting time and total price
-            String[] foodDataArr = foodController.calculateFoodData(foodIndexes, foodCounts);
-            String totalWaitingTimeStr = foodDataArr[0];
-            int totalWaitingTime = stringToInt(totalWaitingTimeStr);
-            String totalPriceStr = foodDataArr[1];
+        // get total waiting time and total price
+        StarFucksList<String> foodDataArr = foodController.calculateFoodData(foodIndexes, foodCounts);
+        String totalWaitingTimeStr = foodDataArr.get(1);
+        int totalWaitingTime = stringToInt(totalWaitingTimeStr);
+        System.out.println(totalWaitingTime);
 
 
-            // give order to barista and get barista index
-            String baristaIndex = baristaController.getOrder();
-            // System.out.println(baristaIndex);
+        // give order to barista and get barista index
+        String baristaIndex = baristaController.getOrder();
 
 
-            // get order from user and store data in UserRepository.txt
-            String orderIndex = userController.getOrders(baristaIndex, totalWaitingTimeStr);
+        // get order from user and store data in UserRepository.txt
+        String orderIndex = userController.getOrders(baristaIndex, totalWaitingTimeStr);
 
 
-            // recover vibration bell and recover order from barista when waiting time is reached
-            Timer timer = new Timer();
-            TimerTask timerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    System.out.println("주문번호 " + orderIndex + " 고객님. 주문하신 음료와 디저트 나왔습니다.");
-                    baristaController.finishOrder(baristaIndex);
-                    userController.pickUpFood(orderIndex);
-                }
-            };
-            timer.schedule(timerTask, totalWaitingTime * 1000);
-
-        } else {
-            System.out.println("입력된 값들 중에 null 값이 있습니다.");
-        }
+        // recover vibration bell and recover order from barista when waiting time is reached
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("주문번호 " + orderIndex + " 고객님. 주문하신 음료와 디저트 나왔습니다.");
+                baristaController.finishOrder(baristaIndex);
+                userController.pickUpFood(orderIndex);
+            }
+        };
+        timer.schedule(timerTask, totalWaitingTime * 1000);
     }
 
     public String checkBarista() {
@@ -186,8 +179,10 @@ public class Manager {
     public void startProgram() {
         CustomerController customerController = CustomerController.getInstance();
         BaristaController baristaController = BaristaController.getInstance();
+        FoodController foodController = FoodController.getInstance();
         customerController.start();
         baristaController.start();
+        foodController.start();
     }
 
 
@@ -237,6 +232,10 @@ public class Manager {
             return true;
         }
     }
+
+
+
+
 
     /**
      * check if input array is an array containing null values
