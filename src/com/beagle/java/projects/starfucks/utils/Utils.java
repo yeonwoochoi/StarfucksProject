@@ -9,12 +9,30 @@ import com.beagle.java.projects.starfucks.domain.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.beagle.java.projects.starfucks.sort.BinaryTreeSort.binaryTreeSort;
+import static com.beagle.java.projects.starfucks.sort.BubbleSort.bubbleSort;
+import static com.beagle.java.projects.starfucks.sort.HeapSort.heapSort;
+import static com.beagle.java.projects.starfucks.sort.MergeSort.mergeSort;
+import static com.beagle.java.projects.starfucks.sort.QuickSort.quickSort;
+import static com.beagle.java.projects.starfucks.sort.SelectionSort.selectionSort;
+
 /**
  * class with methods used throughout the project
  * class with method to convert type or remove null value of array
  * @author Beagle
  */
 public class Utils {
+
+
+    private static double consumedTime;
+
+    public void setConsumedTime(double consumedTime) {
+        this.consumedTime = consumedTime;
+    }
+
+    public static double getConsumedTime() {
+        return consumedTime;
+    }
 
 
     /**
@@ -190,6 +208,55 @@ public class Utils {
             }
             return output;
         }
+    }
+
+    public static int[] checkTime(int[] inputArr, int methodNumber) {
+        int[] outputArr = null;
+        if (methodNumber == 0) {
+            long startTime = System.nanoTime();
+            outputArr = binaryTreeSort(inputArr);
+            long endTime = System.nanoTime();
+            consumedTime = (endTime - startTime)/Math.pow(1000, 3);
+        }
+        if (methodNumber == 1) {
+            long startTime = System.nanoTime();
+            outputArr = bubbleSort(inputArr);
+            long endTime = System.nanoTime();
+            consumedTime = (endTime - startTime)/Math.pow(1000, 3);
+        }
+        if (methodNumber == 2) {
+            long startTime = System.nanoTime();
+            outputArr = heapSort(inputArr);
+            long endTime = System.nanoTime();
+            consumedTime = (endTime - startTime)/Math.pow(1000, 3);
+        }
+        if (methodNumber == 3) {
+            long startTime = System.nanoTime();
+            outputArr = mergeSort(inputArr);
+            long endTime = System.nanoTime();
+            consumedTime = (endTime - startTime)/Math.pow(1000, 3);
+        }
+        if (methodNumber == 4) {
+            long startTime = System.nanoTime();
+            outputArr = quickSort(inputArr);
+            long endTime = System.nanoTime();
+            consumedTime = (endTime - startTime)/Math.pow(1000, 3);
+
+        }
+        if (methodNumber == 5) {
+            long startTime = System.nanoTime();
+            outputArr = selectionSort(inputArr);
+            long endTime = System.nanoTime();
+            consumedTime = (endTime - startTime)/Math.pow(1000, 3);
+        }
+        return outputArr;
+    }
+
+
+
+    public static void showResult(int[] inputList) {
+        for (int index = 0; index < inputList.length; index++)
+            System.out.println(index + ": " + inputList[index]);
     }
 
 
