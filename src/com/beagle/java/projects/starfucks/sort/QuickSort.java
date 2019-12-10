@@ -1,18 +1,22 @@
 package com.beagle.java.projects.starfucks.sort;
 
 public class QuickSort {
+
+    private static int count;
+
     public static int[] quickSort(int[] inputArr){
-        int count = 0;
-        quick(inputArr, 0, 0, inputArr.length-1, count);
+        count = 0;
+        quick(inputArr, 0, 0, inputArr.length-1);
         return inputArr;
     }
 
 
-    public static void quick(int[] inputArr, int pivotIndex, int start, int end, int count) {
+    public static void quick(int[] inputArr, int pivotIndex, int start, int end) {
         if (count < inputArr.length) {
             int[] newArr = new int[end - start + 1];
             int pivot = inputArr[pivotIndex];
             int i = start;
+            int sameCount = 0;
             int small = 0;
             int large = newArr.length - 1;
             while (i <= end) {
@@ -22,6 +26,8 @@ public class QuickSort {
                     if (pivot > inputArr[i]) {
                         newArr[small] = inputArr[i];
                         small++;
+                    } else if (pivot == inputArr[i]){
+                        sameCount++;
                     } else {
                         newArr[large] = inputArr[i];
                         large--;
@@ -29,33 +35,38 @@ public class QuickSort {
                     i++;
                 }
             }
-            int blank = (small + large)/2;
-            newArr[blank] = pivot;
+            int blank = large;
+            for (int m = blank; m >= blank - sameCount; m--) {
+                newArr[m] = pivot;
+            }
             int k = start;
             for (int j = 0; j < newArr.length; j++) {
                 inputArr[k] = newArr[j];
                 k++;
             }
             int newPivotIndex = blank + start;
+            int newPivotIndex1 = newPivotIndex - sameCount;
+            int newPivotIndex2 = newPivotIndex;
 
-            if (newPivotIndex-1 == start) {
+            if (newPivotIndex1 - 1 == start) {
                 count = count + 2;
-            } else if (newPivotIndex == 0) {
+            } else if (newPivotIndex1 == 0) {
                 count++;
-            } else if (newPivotIndex == start) {
+            } else if (newPivotIndex1 == start) {
                 count++;
             } else {
-                quick(inputArr, newPivotIndex - 1, start, newPivotIndex - 1, count);
+                quick(inputArr, newPivotIndex1-1, start, newPivotIndex1-1);
             }
 
-            if (newPivotIndex+1 == end) {
+
+            if (newPivotIndex2+1 == end) {
                 count = count + 2;
-            } else if (newPivotIndex == inputArr.length-1) {
+            } else if (newPivotIndex2 == inputArr.length-1) {
                 count++;
-            } else if (newPivotIndex == end) {
+            } else if (newPivotIndex2 == end) {
                 count++;
             } else {
-                quick(inputArr, newPivotIndex+1, newPivotIndex+1, end, count);
+                quick(inputArr, newPivotIndex2 + 1, newPivotIndex2 + 1, end);
             }
         }
     }
