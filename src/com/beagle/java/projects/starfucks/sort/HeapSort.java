@@ -2,12 +2,18 @@ package com.beagle.java.projects.starfucks.sort;
 
 public class HeapSort {
     public static int[] heapSort(int[] inputArr) {
+        int index = inputArr.length-1;
+        do {
+            int[] newArr = heap(inputArr, index);
+            inputArr = newArr;
+            index = index -2;
+        } while (index > 0);
         heap(inputArr, inputArr.length-1);
         return inputArr;
     }
 
 
-    private static void heap(int[] inputArr, int index) {
+    private static int[] heap(int[] inputArr, int index) {
         if (index > 0) {
             int leaf;
             if (index % 2 == 0) {
@@ -36,10 +42,8 @@ public class HeapSort {
                 }
                 heapify(inputArr, leaf);
             }
-
-            index = index - 2;
-            heap(inputArr, index);
         }
+        return inputArr;
     }
 
 
@@ -78,4 +82,5 @@ public class HeapSort {
         int temp = inputArr[index1];
         inputArr[index1] = inputArr[index2];
         inputArr[index2] = temp;
-    }}
+    }
+}
